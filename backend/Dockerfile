@@ -8,8 +8,11 @@ FROM base AS deps
 COPY package.json package-lock.json* ./
 RUN npm ci --omit=dev --no-audit --no-fund && npm cache clean --force
 
-# Build TypeScript
+# Build TypeScript (needs devDependencies: typescript, vitest, etc.)
+# Override NODE_ENV=development so npm ci installs devDependencies
+# even though the base stage sets NODE_ENV=production.
 FROM base AS builder
+ENV NODE_ENV=development
 COPY package.json package-lock.json* tsconfig.json ./
 COPY src ./src
 RUN npm ci --no-audit --no-fund && npm run build
