@@ -15,8 +15,8 @@ const envSchema = z.object({
   FRONTEND_URL: z.string().url().default('http://localhost:5173'),
   BACKEND_URL: z.string().url().default('http://localhost:4000'),
 
-  BREVO_API_KEY: z.string().startsWith('xkeysib-'),
-  BREVO_FROM_EMAIL: z.string().email(),
+  RESEND_API_KEY: z.string().startsWith('re_'),
+  RESEND_FROM_EMAIL: z.string().email().default('onboarding@resend.dev'),
 
   CLOUDINARY_CLOUD_NAME: z.string(),
   CLOUDINARY_API_KEY: z.string(),
