@@ -5,13 +5,13 @@ on:
     branches: [main, develop]
     paths:
       - 'backend/**'
-      - 'fly.toml'
+      - 'deploy.yml'
       - '.github/workflows/backend-ci.yml'
   pull_request:
     branches: [main]
     paths:
       - 'backend/**'
-      - 'fly.toml'
+      - 'deploy.yml'
       - '.github/workflows/backend-ci.yml'
 
 defaults:

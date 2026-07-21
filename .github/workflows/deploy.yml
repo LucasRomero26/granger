@@ -1,44 +1,58 @@
-name: Deploy backend to Fly.io
+name: Deploy to Render
+
+# Deploys both backend and frontend to Render via Deploy Hooks.
+# Render builds and runs the services on its own infrastructure; this
+# workflow just pokes each service's deploy hook to trigger a fresh build.
+#
+# Render reads:
+#   - backend:  ./backend/Dockerfile  (Language=Docker, Free instance)
+#   - frontend: ./frontend            (static site via Vite build -> dist)
+#
+# Required GitHub secrets (configure in
+# https://github.com/LucasRomero26/granger/settings/secrets/actions):
+#   RENDER_BACKEND_DEPLOY_HOOK  -> https://api.render.com/deploy/... (from backend service settings)
+#   RENDER_FRONTEND_DEPLOY_HOOK -> https://api.render.com/deploy/... (from frontend service settings)
+#
+# One-time setup:
+#   1. Create the backend Web Service in Render (Language=Docker,
+#      Dockerfile Path=backend/Dockerfile, instance Type=Free).
+#   2. Add all env vars from backend/.env.example in the Render dashboard.
+#   3. Copy the service's Deploy Hook URL into the GitHub secret
+#      RENDER_BACKEND_DEPLOY_HOOK.
+#   4. Repeat for the frontend (static site, root=frontend/,
+#      build=npm run build, publish=dist).
 
 on:
   push:
     branches: [main]
     paths:
       - 'backend/**'
-      - 'fly.toml'
+      - 'frontend/**'
       - '.github/workflows/deploy.yml'
 
   workflow_dispatch:
 
-# The frontend is deployed automatically by Vercel on every push to main
-# (its own GitHub integration). This workflow handles the backend only:
-# `fly deploy` builds the Docker image from backend/Dockerfile via the
-# fly.toml manifest and rolls the Fly machine.
-#
-# Required GitHub secret:
-#   FLY_API_TOKEN  -> created on https://fly.io/user/personal_access_tokens
-#                     (token scope: "Deploy" on the granger-backend app)
-#
-# Required Fly.io application (create once):
-#   fly launch --no-copy-config --dockerfile backend/Dockerfile --name granger-backend
-#   fly secrets set ... (see fly.toml header for the full list)
-
 jobs:
   deploy:
-    name: Deploy to Fly.io
+    name: Trigger Render deploy
     runs-on: ubuntu-latest
-    environment:
-      name: production-backend
-      url: https://granger-backend.fly.dev
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Fly CLI
-        uses: superfly/flyctl-actions/setup-flyctl@master
-
-      - name: Deploy
-        uses: superfly/flyctl-actions@master
-        with:
-          args: deploy --image-label ${{ github.sha }} --ha=false --strategy=rolling
+      - name: Trigger backend deploy
+        if: env.RENDER_BACKEND_DEPLOY_HOOK != ''
         env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          RENDER_BACKEND_DEPLOY_HOOK: ${{ secrets.RENDER_BACKEND_DEPLOY_HOOK }}
+        run: |
+          curl -sS -X POST -H "Content-Type: application/json" \
+            --data '{"clearCache":"clear"}' \
+            "$RENDER_BACKEND_DEPLOY_HOOK"
+
+      - name: Trigger frontend deploy
+        if: env.RENDER_FRONTEND_DEPLOY_HOOK != ''
+        env:
+          RENDER_FRONTEND_DEPLOY_HOOK: ${{ secrets.RENDER_FRONTEND_DEPLOY_HOOK }}
+        run: |
+          curl -sS -X POST -H "Content-Type: application/json" \
+            --data '{"clearCache":"clear"}' \
+            "$RENDER_FRONTEND_DEPLOY_HOOK"

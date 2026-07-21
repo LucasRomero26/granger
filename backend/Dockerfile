@@ -17,7 +17,7 @@ RUN npm ci --no-audit --no-fund && npm run build
 # Minimal final image
 FROM base AS runner
 ENV NODE_ENV=production
-# PORT is injected by the runtime (Render, Fly.io, etc.). Default to 4000
+# PORT is injected by the runtime (Render, Heroku, etc.). Default to 4000
 # for local `docker run` compatibility.
 ENV PORT=4000
 
@@ -33,6 +33,7 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=20s --retries=3 \
   CMD wget --quiet --tries=1 --spider http://localhost:${PORT}/health || exit 1
 
 USER nodejs
-# EXPOSE is informational only; Fly.io routes traffic to the port in fly.toml.
+# EXPOSE is informational only; Render routes traffic to the port in $PORT
+# (default $PORT=10000 on Render, overridden via Render dashboard).
 EXPOSE 4000
 CMD ["node", "dist/index.js"]
