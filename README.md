@@ -159,10 +159,11 @@ is configured in the Render dashboard.
    - **Name**: `granger-backend`
    - **Region**: `Oregon` (closest to MongoDB Atlas `us-central1`)
    - **Branch**: `main`
-   - **Root Directory**: `.` (repo root — Render needs this to find
-     `backend/Dockerfile`; the Dockerfile itself copies only `backend/`)
+   - **Root Directory**: `backend` (so the Dockerfile's `COPY package.json ./`
+     finds `package.json` at the build context root)
    - **Language**: `Docker`
-   - **Dockerfile Path**: `backend/Dockerfile`
+   - **Dockerfile Path**: `Dockerfile` (relative to the Root Directory
+     above — Render resolves it to `backend/Dockerfile`)
    - **Instance Type**: `Free` (512 MB, 0.1 CPU)
 4. **Environment variables** (copy from `backend/.env.example` and fill in
    real values). The full list:
@@ -208,8 +209,8 @@ services:
     runtime: docker
     region: oregon
     branch: main
-    rootDir: .
-    dockerfilePath: backend/Dockerfile
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
     plan: free
     healthCheckPath: /health
     autoDeploy: true

@@ -1,4 +1,4 @@
-import { resend, FROM_HEADER } from '../config/resend'
+import { sendEmail } from '../config/email'
 import { env } from '../config/env'
 import { logger } from '../config/logger'
 
@@ -12,11 +12,7 @@ export class AuthEmail {
   static async sendConfirmationEmail({ email, name, token }: IEmailParams): Promise<void> {
     const confirmationUrl = `${env.FRONTEND_URL}/auth/confirm-account`
 
-    const { data, error } = await resend.emails.send({
-      from: FROM_HEADER,
-      to: email,
-      subject: 'Granger - Confirm your account',
-      html: `
+    const html = `
         <div style="font-family: 'Source Sans 3', system-ui, sans-serif; max-width: 560px; margin: 0 auto; padding: 32px;">
           <h1 style="color: #7c3aed; font-size: 24px; margin: 0 0 16px;">Hi ${name},</h1>
           <p style="color: #475569; font-size: 16px; line-height: 1.6;">
@@ -37,24 +33,21 @@ export class AuthEmail {
             This code expires in 10 minutes. If you did not create this account, you can ignore this email.
           </p>
         </div>
-      `,
-    })
+      `
 
-    if (error) {
-      logger.error({ err: error, email }, 'Failed to send confirmation email')
-      throw error
+    try {
+      const { messageId } = await sendEmail({ to: email, subject: 'Granger - Confirm your account', html })
+      logger.info({ id: messageId, email }, 'Confirmation email sent')
+    } catch (err) {
+      logger.error({ err, email }, 'Failed to send confirmation email')
+      throw err
     }
-    logger.info({ id: data?.id, email }, 'Confirmation email sent')
   }
 
   static async sendPasswordResetToken({ email, name, token }: IEmailParams): Promise<void> {
     const resetUrl = `${env.FRONTEND_URL}/auth/new-password`
 
-    const { data, error } = await resend.emails.send({
-      from: FROM_HEADER,
-      to: email,
-      subject: 'Granger - Reset your password',
-      html: `
+    const html = `
         <div style="font-family: 'Source Sans 3', system-ui, sans-serif; max-width: 560px; margin: 0 auto; padding: 32px;">
           <h1 style="color: #7c3aed; font-size: 24px; margin: 0 0 16px;">Hi ${name},</h1>
           <p style="color: #475569; font-size: 16px; line-height: 1.6;">
@@ -75,13 +68,14 @@ export class AuthEmail {
             This code expires in 10 minutes. If you did not request this change, you can ignore this email.
           </p>
         </div>
-      `,
-    })
+      `
 
-    if (error) {
-      logger.error({ err: error, email }, 'Failed to send password reset email')
-      throw error
+    try {
+      const { messageId } = await sendEmail({ to: email, subject: 'Granger - Reset your password', html })
+      logger.info({ id: messageId, email }, 'Password reset email sent')
+    } catch (err) {
+      logger.error({ err, email }, 'Failed to send password reset email')
+      throw err
     }
-    logger.info({ id: data?.id, email }, 'Password reset email sent')
   }
 }
