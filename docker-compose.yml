@@ -1,0 +1,67 @@
+# Granger - docker-compose for local development
+#
+# Starts the frontend and backend together, connected to MongoDB Atlas.
+# Each service loads its credentials from its own .env file.
+#
+# Usage:
+#   docker compose up              # start both services
+#   docker compose up backend      # backend only
+#   docker compose up frontend     # frontend only
+#   docker compose down            # stop
+#   docker compose logs -f         # live logs
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    container_name: granger-backend-dev
+    ports:
+      - "4000:4000"
+    environment:
+      NODE_ENV: development
+      PORT: 4000
+      # Remaining variables are loaded from .env
+    env_file:
+      - ./backend/.env
+    volumes:
+      # Mount source code for hot reload via tsx watch
+      - ./backend/src:/app/src:ro
+      - ./backend/tests:/app/tests:ro
+      - ./backend/package.json:/app/package.json:ro
+      - ./backend/tsconfig.json:/app/tsconfig.json:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:4000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: granger-frontend-dev
+    ports:
+      - "5173:5173"
+    environment:
+      # Frontend consumes VITE_API_URL from .env.local
+      VITE_API_URL: http://localhost:4000/api
+      VITE_DEMO_MODE: "false"
+    env_file:
+      - ./frontend/.env.local
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/index.html:/app/index.html
+      - ./frontend/tailwind.config.js:/app/tailwind.config.js
+      - ./frontend/postcss.config.js:/app/postcss.config.js
+      - ./frontend/package.json:/app/package.json:ro
+      - ./frontend/vite.config.ts:/app/vite.config.ts:ro
+      - ./frontend/tsconfig.json:/app/tsconfig.json:ro
+      - ./frontend/tsconfig.app.json:/app/tsconfig.app.json:ro
+      - ./frontend/tsconfig.node.json:/app/tsconfig.node.json:ro
+      - ./frontend/public:/app/public
+    restart: unless-stopped
+    depends_on:
+      - backend

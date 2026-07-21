@@ -1,0 +1,23 @@
+# Dependencies
+**/node_modules/
+
+# Build output
+**/dist/
+**/coverage/
+
+# Environment (injected at runtime)
+**/.env
+**/.env.local
+**/.env.*.local
+
+# Docs
+docs/
+**/*.md
+
+# IDE
+.vscode/
+.idea/
+**/.DS_Store
+
+# Logs
+**/*.log

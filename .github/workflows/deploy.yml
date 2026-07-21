@@ -1,0 +1,44 @@
+name: Deploy backend to Fly.io
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'backend/**'
+      - 'fly.toml'
+      - '.github/workflows/deploy.yml'
+
+  workflow_dispatch:
+
+# The frontend is deployed automatically by Vercel on every push to main
+# (its own GitHub integration). This workflow handles the backend only:
+# `fly deploy` builds the Docker image from backend/Dockerfile via the
+# fly.toml manifest and rolls the Fly machine.
+#
+# Required GitHub secret:
+#   FLY_API_TOKEN  -> created on https://fly.io/user/personal_access_tokens
+#                     (token scope: "Deploy" on the granger-backend app)
+#
+# Required Fly.io application (create once):
+#   fly launch --no-copy-config --dockerfile backend/Dockerfile --name granger-backend
+#   fly secrets set ... (see fly.toml header for the full list)
+
+jobs:
+  deploy:
+    name: Deploy to Fly.io
+    runs-on: ubuntu-latest
+    environment:
+      name: production-backend
+      url: https://granger-backend.fly.dev
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Fly CLI
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Deploy
+        uses: superfly/flyctl-actions@master
+        with:
+          args: deploy --image-label ${{ github.sha }} --ha=false --strategy=rolling
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}

@@ -1,0 +1,44 @@
+# Granger monorepo - .gitignore
+
+# Dependencies
+**/node_modules/
+
+# Build output
+**/dist/
+**/coverage/
+*.tsbuildinfo
+
+# Environment (NEVER commit credentials)
+.env
+.env.local
+.env.*.local
+.env.production
+.env.development
+backend/.env
+frontend/.env.local
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+**/*:Zone.Identifier
+
+# Docker
+.docker/
+
+# Local notes (internal documentation, not committed)
+docs/LOCAL_NOTES/
+
+# Temp
+.tmp/
+.cache/

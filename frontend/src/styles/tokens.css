@@ -1,0 +1,68 @@
+:root {
+  /* Tell the UA the ACTIVE scheme is light so native UI chrome
+     (scrollbars, form-control defaults, and crucially autofill backgrounds)
+     renders with light tints. Listing both `light dark` here lets the UA pick a
+     dark canvas for <input> even in light mode, which bled through translucent
+     `bg-frost/70` surfaces and made forms look black. The `.dark` block below
+     declares `color-scheme: dark` for the dark theme. */
+  color-scheme: light;
+  --color-mist: oklch(0.95 0.018 220);
+  --color-frost: oklch(0.995 0.004 220);
+  --color-ink: oklch(0.24 0.03 250);
+  --color-muted: oklch(0.5 0.02 250);
+  --color-accent: oklch(0.55 0.1 175);
+  --color-accent-soft: oklch(0.93 0.035 175);
+  --color-accent-fg: oklch(0.99 0.01 175);
+  --color-brass: oklch(0.74 0.09 75);
+  --color-glass: oklch(1 0.008 220 / 0.55);
+  --color-glass-border: oklch(0.78 0.02 220 / 0.45);
+  --color-glass-strong: oklch(1 0.005 220 / 0.88);
+  --color-card: oklch(1 0.004 220 / 0.92);
+  --color-danger: oklch(0.55 0.18 25);
+  --color-success: oklch(0.55 0.14 155);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --atmosphere:
+    radial-gradient(ellipse 100% 70% at 0% 0%, oklch(0.86 0.05 200 / 0.65), transparent 55%),
+    radial-gradient(ellipse 80% 60% at 100% 0%, oklch(0.88 0.04 160 / 0.5), transparent 50%),
+    radial-gradient(ellipse 70% 50% at 50% 100%, oklch(0.9 0.03 250 / 0.35), transparent 55%),
+    linear-gradient(165deg, oklch(0.94 0.02 215), oklch(0.91 0.025 195));
+}
+
+.dark {
+  color-scheme: dark;
+  --color-mist: oklch(0.14 0.025 250);
+  /* Frost is intentionally brighter than glass-strong (~0.22 L) so surfaces
+     filled with it (form inputs, active tabs, badges) sit one step above the
+     panel behind them — Linear/Vercel dark-form elevation model. */
+  --color-frost: oklch(0.27 0.025 250);
+  --color-ink: oklch(0.95 0.01 220);
+  --color-muted: oklch(0.72 0.02 230);
+  --color-accent: oklch(0.74 0.11 175);
+  --color-accent-soft: oklch(0.28 0.05 175);
+  --color-accent-fg: oklch(0.16 0.03 175);
+  --color-brass: oklch(0.78 0.1 75);
+  --color-glass: oklch(0.2 0.03 250 / 0.5);
+  /* Slightly stronger border so elevated surfaces read clearly against the
+     dark frost background. Was 0.16 alpha — bumping to 0.22 adds definition
+     without going harsh. */
+  --color-glass-border: oklch(0.74 0.02 230 / 0.22);
+  --color-glass-strong: oklch(0.22 0.03 250 / 0.82);
+  --color-card: oklch(0.23 0.028 250 / 0.9);
+  --color-danger: oklch(0.68 0.16 25);
+  --color-success: oklch(0.72 0.14 155);
+  --atmosphere:
+    radial-gradient(ellipse 100% 70% at 10% 0%, oklch(0.28 0.05 200 / 0.45), transparent 55%),
+    radial-gradient(ellipse 80% 60% at 90% 10%, oklch(0.26 0.055 160 / 0.35), transparent 50%),
+    radial-gradient(ellipse 70% 50% at 50% 100%, oklch(0.18 0.04 260 / 0.4), transparent 55%),
+    linear-gradient(165deg, oklch(0.13 0.025 250), oklch(0.11 0.02 230));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
