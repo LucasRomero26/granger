@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useMutation } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
@@ -22,11 +22,13 @@ function Divider({ children }: { children: React.ReactNode }) {
 
 export default function RegisterView() {
   const t = useT()
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
     watch,
     reset,
+    getValues,
     formState: { errors },
   } = useForm<UserRegistrationForm>({
     defaultValues: {
@@ -44,7 +46,9 @@ export default function RegisterView() {
     onError: (error: Error) => toast.error(error.message),
     onSuccess: (data) => {
       toast.success(data ?? t('register.title'))
+      const email = getValues('email')
       reset()
+      navigate('/auth/confirm-account', { replace: true, state: { email } })
     },
   })
 

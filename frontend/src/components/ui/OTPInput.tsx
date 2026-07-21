@@ -8,6 +8,7 @@ type OTPInputProps = {
   onComplete?: (value: string) => void
   length?: number
   label?: string
+  disabled?: boolean
 }
 
 export default function OTPInput({
@@ -16,6 +17,7 @@ export default function OTPInput({
   onComplete,
   length = 6,
   label,
+  disabled = false,
 }: OTPInputProps) {
   const t = useT()
   const inputsRef = useRef<Array<HTMLInputElement | null>>([])
@@ -60,6 +62,7 @@ export default function OTPInput({
             autoComplete="one-time-code"
             maxLength={1}
             value={digit}
+            disabled={disabled}
             aria-label={t('otp.digit', { n: index + 1 })}
             onChange={(e) => {
               const char = e.target.value.replace(/\D/g, '').slice(-1)

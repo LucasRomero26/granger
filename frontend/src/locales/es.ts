@@ -43,6 +43,7 @@ export const messages = {
   'login.submit': 'Iniciar sesión',
   'login.submitting': 'Iniciando…',
   'login.welcomeBack': 'Bienvenido de nuevo',
+  'login.notConfirmedRedirect': 'Tu cuenta no está confirmada. Te redirigimos para ingresar tu código…',
   'login.createAccount': '¿No tienes cuenta? Crea una',
   'login.forgotPassword': '¿Olvidaste tu contraseña? Recupérala',
   'login.oauthMissingData': 'Faltan datos del proveedor OAuth. Intenta de nuevo.',

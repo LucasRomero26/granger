@@ -38,13 +38,25 @@ export class AuthService {
       type: 'email_confirmation',
     })
 
-    await AuthEmail.sendConfirmationEmail({
-      email: user.email,
-      name: user.name,
-      token: token.token,
-    })
+    // Persist first, then send the email. Using Promise.all (not allSettled)
+    // so that any save failure surfaces as a 500 instead of a silent success
+    // that leaves the user with a delivered email but no DB record to confirm.
+    await Promise.all([user.save(), token.save()])
 
-    await Promise.allSettled([user.save(), token.save()])
+    try {
+      await AuthEmail.sendConfirmationEmail({
+        email: user.email,
+        name: user.name,
+        token: token.token,
+      })
+    } catch (err) {
+      // Email delivery failed (Brevo/Resend down, sandbox rejection, etc.).
+      // Roll back the token so the user can request a new code; keep the user
+      // record so they can retry the confirmation flow via /request-code.
+      await token.deleteOne().catch(() => {})
+      throw err
+    }
+
     return { message: 'Account created. Check your email to confirm it.' }
   }
 
@@ -60,7 +72,7 @@ export class AuthService {
     }
     user.confirmed = true
 
-    await Promise.allSettled([user.save(), tokenExists.deleteOne()])
+    await Promise.all([user.save(), tokenExists.deleteOne()])
     return { message: 'Account confirmed successfully' }
   }
 
@@ -202,7 +214,7 @@ export class AuthService {
     user.loginAttempts = 0
     user.lockUntil = null
 
-    await Promise.allSettled([user.save(), tokenExists.deleteOne()])
+    await Promise.all([user.save(), tokenExists.deleteOne()])
     return { message: 'Password updated successfully' }
   }
 

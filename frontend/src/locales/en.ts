@@ -43,6 +43,7 @@ export const messages = {
   'login.submit': 'Sign in',
   'login.submitting': 'Signing in…',
   'login.welcomeBack': 'Welcome back',
+  'login.notConfirmedRedirect': 'Your account is not confirmed. Redirecting you to enter your code…',
   'login.createAccount': "Don't have an account? Create one",
   'login.forgotPassword': 'Forgot your password? Reset it',
   'login.oauthMissingData': 'Missing OAuth provider data. Try again.',
