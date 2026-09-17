@@ -34,11 +34,9 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
         to={projectUrl}
         aria-label={t('project.card.open', { name: project.projectName })}
         className={cn(
-          'group relative flex min-h-[180px] flex-col overflow-hidden rounded-[1.75rem] border border-glass-border p-5',
-          'bg-glass-strong backdrop-blur-2xl',
-          'shadow-glass transition-[border-color,box-shadow] duration-300 ease-out',
-          'hover:border-accent/30 hover:shadow-float',
-          'dark:hover:shadow-[0_28px_60px_-14px_rgba(0,0,0,0.55),0_10px_24px_-8px_rgba(0,0,0,0.35),0_2px_6px_-2px_rgba(0,0,0,0.25)]',
+          'group relative flex min-h-[180px] flex-col overflow-hidden rounded-2xl border border-glass-border p-5',
+          'bg-frost shadow-soft transition-[border-color,box-shadow] duration-300 ease-out',
+          'hover:border-accent/40 hover:shadow-lift',
           'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
         )}
       >
@@ -59,7 +57,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
             >
               <Menu as="div" className="relative">
                 <MenuButton
-                  className="rounded-xl p-1.5 text-muted transition-all duration-200 ease-out hover:bg-glass hover:text-ink group-hover:text-ink data-[open]:bg-glass data-[open]:text-ink"
+                  className="rounded-lg p-1.5 text-muted transition-all duration-200 ease-out hover:bg-mist hover:text-ink group-hover:text-ink data-[open]:bg-mist data-[open]:text-ink"
                   onClick={(e) => {
                     e.preventDefault()
                     e.stopPropagation()
@@ -72,12 +70,12 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
                   anchor="bottom end"
                   portal
                   transition
-                  className="z-dropdown w-48 origin-top-right rounded-2xl border border-glass-border bg-glass-strong p-1 shadow-lift backdrop-blur-xl transition data-[closed]:scale-95 data-[closed]:opacity-0"
+                  className="z-dropdown w-48 origin-top-right rounded-xl border border-glass-border bg-frost p-1 shadow-lift transition data-[closed]:scale-95 data-[closed]:opacity-0"
                 >
                   <MenuItem>
                     <Link
                       to={projectUrl}
-                      className="block rounded-xl px-3 py-2 text-sm text-ink data-[focus]:bg-accent-soft"
+                      className="block rounded-lg px-3 py-2 text-sm text-ink data-[focus]:bg-accent-soft data-[focus]:text-accent"
                     >
                       {t('project.card.view')}
                     </Link>
@@ -87,7 +85,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
                       <MenuItem>
                         <Link
                           to={`/projects/${project._id}/edit`}
-                          className="block rounded-xl px-3 py-2 text-sm text-ink data-[focus]:bg-accent-soft"
+                          className="block rounded-lg px-3 py-2 text-sm text-ink data-[focus]:bg-accent-soft data-[focus]:text-accent"
                         >
                           {t('project.card.edit')}
                         </Link>
@@ -95,7 +93,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
                       <MenuItem>
                         <button
                           type="button"
-                          className="block w-full rounded-xl px-3 py-2 text-left text-sm text-danger data-[focus]:bg-danger/10"
+                          className="block w-full rounded-lg px-3 py-2 text-left text-sm text-danger data-[focus]:bg-danger/10"
                           onClick={() =>
                             navigate(`${location.pathname}?deleteProject=${project._id}`)
                           }
@@ -111,12 +109,12 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
           </div>
 
           <div className="flex items-start justify-between gap-3">
-            <h3 className="font-display text-xl font-semibold leading-tight text-ink transition-colors duration-300 ease-out group-hover:text-accent">
+            <h3 className="font-display text-xl font-bold leading-tight text-ink transition-colors duration-300 ease-out group-hover:text-accent">
               {project.projectName}
             </h3>
             <span
               aria-hidden
-              className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-glass text-muted opacity-0 transition-all duration-300 ease-out group-hover:translate-x-0 group-hover:opacity-100 sm:translate-x-1"
+              className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent-soft text-accent opacity-0 transition-all duration-300 ease-out group-hover:translate-x-0 group-hover:opacity-100 sm:translate-x-1"
             >
               <ArrowUpRight className="h-4 w-4" />
             </span>

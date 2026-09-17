@@ -67,18 +67,18 @@ export default function ProjectTeamView() {
                 <p className="text-sm text-muted">{member.email}</p>
               </div>
               <Menu as="div" className="relative">
-                <MenuButton className="rounded-xl p-1.5 text-muted transition hover:bg-glass hover:text-ink">
+                <MenuButton className="rounded-lg p-1.5 text-muted transition hover:bg-mist hover:text-ink">
                   <span className="sr-only">{t('common.options')}</span>
                   <EllipsisVertical className="h-5 w-5" />
                 </MenuButton>
                 <MenuItems
                   transition
-                  className="absolute right-0 z-dropdown mt-1 w-48 origin-top-right rounded-2xl border border-glass-border bg-glass-strong p-1 shadow-lift backdrop-blur-xl transition data-[closed]:scale-95 data-[closed]:opacity-0"
+                  className="absolute right-0 z-dropdown mt-1 w-48 origin-top-right rounded-xl border border-glass-border bg-frost p-1 shadow-lift transition data-[closed]:scale-95 data-[closed]:opacity-0"
                 >
                   <MenuItem>
                     <button
                       type="button"
-                      className="block w-full rounded-xl px-3 py-2 text-left text-sm text-danger data-[focus]:bg-danger/10"
+                      className="block w-full rounded-lg px-3 py-2 text-left text-sm text-danger data-[focus]:bg-danger/10"
                       onClick={() => mutate({ projectId, userId: member._id })}
                     >
                       {t('team.remove')}

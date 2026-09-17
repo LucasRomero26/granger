@@ -1,10 +1,8 @@
 import type { InputHTMLAttributes, ReactNode, TextareaHTMLAttributes } from 'react'
 import { cn } from '@/utils/utils'
 
-const fieldClass =
-  'w-full rounded-2xl border border-glass-border bg-frost/70 px-4 py-3 text-ink placeholder:text-muted/70 backdrop-blur-sm transition focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30 dark:border-glass-border/50 dark:bg-frost dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05),inset_0_-1px_0_0_rgba(0,0,0,0.15)] dark:placeholder:text-muted'
-const fieldCompactClass =
-  'w-full rounded-2xl border border-glass-border bg-frost/70 px-4 py-2.5 text-ink placeholder:text-muted/70 backdrop-blur-sm transition focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30 dark:border-glass-border/50 dark:bg-frost dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05),inset_0_-1px_0_0_rgba(0,0,0,0.15)] dark:placeholder:text-muted'
+const fieldClass = 'field'
+const fieldCompactClass = 'field-compact'
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   label?: string
@@ -59,7 +57,7 @@ export function Textarea({ label, error, className, id, autoComplete = 'off', ..
 
 export function ErrorMessage({ children }: { children: ReactNode }) {
   return (
-    <p className="rounded-xl bg-danger/10 px-3 py-2 text-sm font-medium text-danger" role="alert">
+    <p className="rounded-lg bg-danger/10 px-3 py-2 text-sm font-medium text-danger" role="alert">
       {children}
     </p>
   )

@@ -111,7 +111,7 @@ export const DEMO_TASKS: Task[] = [
   {
     _id: DEMO_TASK_IDS.underReview,
     name: 'Review auth screens',
-    description: 'Check typography, OTP input, and light/dark contrast.',
+    description: 'Check typography, OTP input, and color contrast.',
     project: DEMO_PROJECT_ID,
     status: 'underReview',
     completedBy: [],

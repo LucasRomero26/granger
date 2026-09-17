@@ -29,9 +29,6 @@ export const messages = {
   'nav.toggleLang': 'Cambiar a inglés',
   'nav.footer': '© {year} Granger',
 
-  // Theme toggle aria
-  'theme.toLight': 'Cambiar a modo claro',
-  'theme.toDark': 'Cambiar a modo oscuro',
 
   // Auth: Login
   'login.title': 'Iniciar sesión',
@@ -286,7 +283,7 @@ export const messages = {
 
   // Demo nav
   'demo.title': 'Pantallas de demo',
-  'demo.subtitle': 'Backend apagado — navegando con datos simulados. Cambia el tema desde el header.',
+  'demo.subtitle': 'Backend apagado — navegando con datos simulados.',
   'demo.groupAuth': 'Auth',
   'demo.groupApp': 'App',
   'demo.groupOther': 'Otro',

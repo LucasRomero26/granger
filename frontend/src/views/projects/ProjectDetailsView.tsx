@@ -57,7 +57,7 @@ export default function ProjectDetailsView() {
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.05 * i, duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                  className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border-2 border-mist bg-accent-soft text-[10px] font-bold text-accent"
+                  className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border-2 border-frost bg-accent-soft text-[10px] font-bold text-accent shadow-soft"
                   title={name ?? undefined}
                 >
                   {avatar ? (
@@ -73,7 +73,7 @@ export default function ProjectDetailsView() {
               )
             })}
             {data.team.length > 5 && (
-              <span className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-mist bg-glass text-[10px] font-bold text-muted">
+              <span className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-frost bg-glass text-[10px] font-bold text-muted shadow-soft">
                 +{data.team.length - 5}
               </span>
             )}

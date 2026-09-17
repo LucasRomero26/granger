@@ -18,16 +18,16 @@ type ButtonProps = {
 }
 
 const variants: Record<Variant, string> = {
-  primary: 'bg-accent text-accent-fg hover:brightness-110 shadow-sm',
-  secondary: 'bg-glass-strong border border-glass-border text-ink hover:bg-frost',
+  primary: 'bg-navy text-navy-fg hover:bg-navy-soft shadow-soft',
+  secondary: 'bg-frost border border-glass-border text-ink hover:bg-glass hover:border-accent/40',
   ghost: 'bg-transparent text-muted hover:bg-glass hover:text-ink',
-  danger: 'bg-danger/15 text-danger hover:bg-danger/25',
+  danger: 'bg-danger/10 text-danger hover:bg-danger/20',
 }
 
 const sizes: Record<Size, string> = {
-  sm: 'px-3 py-1.5 text-sm rounded-xl',
-  md: 'px-4 py-2.5 text-sm rounded-2xl',
-  lg: 'px-6 py-3 text-base rounded-2xl',
+  sm: 'px-3 py-1.5 text-sm rounded-lg',
+  md: 'px-4 py-2.5 text-sm rounded-xl',
+  lg: 'px-6 py-3 text-base rounded-xl',
 }
 
 export default function Button({

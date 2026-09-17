@@ -39,7 +39,7 @@ export default function Modal({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={soft}
-              className="absolute inset-0 bg-ink/45 backdrop-blur-md"
+              className="absolute inset-0 bg-navy/60 backdrop-blur-sm"
             />
           </DialogBackdrop>
           <div className="fixed inset-0 overflow-y-auto p-4">
@@ -56,18 +56,18 @@ export default function Modal({
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.98, y: 10 }}
                   transition={soft}
-                  className="glass-panel-strong p-6 text-left md:p-10"
+                  className="rounded-2xl bg-frost p-6 text-left shadow-float md:p-10"
                 >
                   <button
                     type="button"
                     onClick={onClose}
-                    className="absolute right-4 top-4 rounded-xl p-2 text-muted transition duration-300 hover:bg-glass hover:text-ink"
+                    className="absolute right-4 top-4 rounded-lg p-2 text-muted transition duration-300 hover:bg-glass hover:text-ink"
                     aria-label="Close"
                   >
                     <X className="h-5 w-5" />
                   </button>
                   {title && (
-                    <DialogTitle className="mb-6 pr-10 font-display text-2xl font-semibold tracking-[-0.03em] text-ink md:text-3xl">
+                    <DialogTitle className="mb-6 pr-10 font-display text-2xl font-bold tracking-[-0.02em] text-ink md:text-3xl">
                       {title}
                     </DialogTitle>
                   )}

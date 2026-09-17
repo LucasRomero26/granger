@@ -61,7 +61,7 @@ export default function TaskModalDetails() {
           <h4 className="font-display text-lg font-semibold text-ink">{t('task.modal.history')}</h4>
           <ul className="mt-3 space-y-2">
             {data.completedBy.map((log) => (
-              <li key={log._id} className="rounded-xl bg-glass px-3 py-2 text-sm">
+              <li key={log._id} className="rounded-lg border border-glass-border bg-glass px-3 py-2 text-sm">
                 <span className="font-semibold text-ink">
                   {statusLabels[log.status]}
                 </span>{' '}
@@ -79,7 +79,7 @@ export default function TaskModalDetails() {
         <select
           id="status"
           data-testid="task-status-select"
-          className="field w-full rounded-2xl border border-glass-border bg-frost/70 px-4 py-3 text-ink backdrop-blur-sm focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30 dark:border-glass-border/50 dark:bg-frost dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05),inset_0_-1px_0_0_rgba(0,0,0,0.15)]"
+          className="field"
           defaultValue={data.status}
           onChange={(e) =>
             mutate({

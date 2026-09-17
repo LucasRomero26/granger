@@ -119,38 +119,26 @@ function Column({
 
   return (
     <div className="flex min-w-[272px] max-w-[300px] flex-1 flex-col 2xl:min-w-0">
-      <div className="mb-3 flex items-center justify-between gap-2 px-1">
-        <div className="flex items-center gap-2">
-          <span className={cn('h-2 w-2 rounded-full', statusAccent[status])} />
-          <h3 className="text-sm font-semibold text-ink">{statusLabels[status]}</h3>
-          <span className="rounded-full bg-mist/80 px-2 py-0.5 text-[11px] font-semibold text-muted">
-            {taskIds.length}
-          </span>
-        </div>
-        {canEdit && onAdd && (
-          <button
-            type="button"
-            onClick={onAdd}
-            className="rounded-lg p-1.5 text-muted transition hover:bg-glass hover:text-ink"
-            aria-label={t('task.add')}
-          >
-            <Plus className="h-4 w-4" />
-          </button>
-        )}
+      <div className="mb-3 flex items-center gap-2 px-1">
+        <span className={cn('h-2 w-2 rounded-full', statusAccent[status])} />
+        <h3 className="text-sm font-medium text-muted">{statusLabels[status]}</h3>
+        <span className="rounded-full bg-mist px-2 py-0.5 text-[11px] font-semibold text-muted">
+          {taskIds.length}
+        </span>
       </div>
 
       <SortableContext items={taskIds} strategy={verticalListSortingStrategy}>
         <div
           ref={setNodeRef}
           className={cn(
-            'relative flex min-h-[140px] flex-1 flex-col gap-3 rounded-[1.5rem] p-1.5',
-            isOver && boardDragging && 'bg-accent-soft/40',
+            'relative flex min-h-[140px] flex-1 flex-col gap-3 rounded-xl p-1.5 transition-colors duration-200',
+            isOver && boardDragging && 'bg-accent-soft/60',
           )}
         >
           {taskIds.length === 0 && (
             <div
               className={cn(
-                'pointer-events-none absolute inset-1.5 flex items-center justify-center rounded-[1.25rem] border border-dashed border-glass-border px-3 text-center text-xs text-muted transition-opacity duration-200',
+                'pointer-events-none absolute inset-1.5 flex items-center justify-center rounded-xl border border-dashed border-glass-border px-3 text-center text-xs text-muted transition-opacity duration-200',
                 boardDragging ? 'opacity-40' : 'opacity-100',
               )}
             >
@@ -169,6 +157,17 @@ function Column({
               />
             )
           })}
+
+          {canEdit && onAdd && (
+            <button
+              type="button"
+              onClick={onAdd}
+              className="mt-1 inline-flex items-center gap-2 self-start rounded-lg px-2 py-1.5 text-sm font-medium text-ink transition hover:bg-mist"
+            >
+              <Plus className="h-4 w-4" />
+              {t('task.add')}
+            </button>
+          )}
         </div>
       </SortableContext>
     </div>

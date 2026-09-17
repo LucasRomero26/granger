@@ -80,7 +80,7 @@ export default function OTPInput({
               inputsRef.current[Math.min(pasted.length, length - 1)]?.focus()
             }}
             className={cn(
-              'field h-12 w-10 rounded-xl border border-glass-border bg-frost/70 text-center text-lg font-semibold text-ink backdrop-blur-sm transition focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30 dark:border-glass-border/50 dark:bg-frost dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05),inset_0_-1px_0_0_rgba(0,0,0,0.15)]',
+              'field h-12 w-10 !px-0 !py-0 text-center text-lg font-semibold',
             )}
           />
         ))}

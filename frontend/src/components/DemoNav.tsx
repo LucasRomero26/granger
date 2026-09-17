@@ -39,7 +39,7 @@ export default function DemoNav() {
         {open && (
           <div className="max-h-[50vh] space-y-3 overflow-y-auto border-t border-glass-border px-3 py-3">
             <p className="px-1 text-xs text-muted">
-              Backend off — browsing with mock data. Toggle theme from the header.
+              Backend off — browsing with mock data.
             </p>
             {groups.map(([group, screens]) => (
               <div key={group}>
@@ -57,10 +57,10 @@ export default function DemoNav() {
                         <Link
                           to={screen.path}
                           className={cn(
-                            'block rounded-xl px-2.5 py-1.5 text-sm transition',
+                            'block rounded-lg px-2.5 py-1.5 text-sm transition',
                             active
                               ? 'bg-accent-soft font-semibold text-accent'
-                              : 'text-ink hover:bg-glass',
+                              : 'text-ink hover:bg-mist',
                           )}
                         >
                           {screen.label}

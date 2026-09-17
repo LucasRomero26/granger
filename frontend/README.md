@@ -1,6 +1,6 @@
 # Granger Frontend
 
-Modern project management frontend with glassmorphism UI, light/dark mode,
+Modern project management frontend with a clean navy & blue UI,
 internationalization (English/Spanish) and motion.
 
 ## Stack

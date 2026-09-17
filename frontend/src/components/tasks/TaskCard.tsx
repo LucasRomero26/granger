@@ -62,78 +62,75 @@ function CardBody({
   })
 
   return (
-    <div className="p-3.5">
-      <div className="mb-2.5 flex items-start justify-between gap-2">
-        <span
-          className={cn(
-            'inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[11px] font-semibold',
-            statusAccent[task.status],
+    <>
+      <div className="flex items-start justify-between gap-2 bg-navy px-3.5 py-3 text-navy-fg">
+        <p className="min-w-0 text-sm font-semibold leading-snug">{task.name}</p>
+        <div className="flex shrink-0 items-center gap-1">
+          <span className="inline-flex shrink-0 items-center gap-1.5 rounded-md bg-navy-soft px-2 py-0.5 text-[11px] font-medium text-navy-muted">
+            <span className={cn('h-1.5 w-1.5 rounded-full', statusAccent[task.status])} />
+            {statusLabels[task.status]}
+          </span>
+          {showMenu && (
+            <Menu as="div" className="relative" onClick={(e) => e.stopPropagation()}>
+              <MenuButton
+                className="rounded-md p-1 text-navy-muted opacity-0 transition duration-200 group-hover:opacity-100 hover:bg-navy-soft hover:text-white data-[open]:opacity-100"
+                onPointerDown={(e) => e.stopPropagation()}
+              >
+                <span className="sr-only">{t('common.options')}</span>
+                <Ellipsis className="h-4 w-4" />
+              </MenuButton>
+              <MenuItems
+                transition
+                className="absolute right-0 z-dropdown mt-1 w-44 origin-top-right rounded-xl border border-glass-border bg-frost p-1 shadow-lift transition duration-200 ease-out data-[closed]:scale-95 data-[closed]:opacity-0"
+              >
+                <MenuItem>
+                  <button
+                    type="button"
+                    className="block w-full rounded-lg px-3 py-2 text-left text-sm text-ink data-[focus]:bg-accent-soft data-[focus]:text-accent"
+                    onClick={() => navigate(`${location.pathname}?viewTask=${task._id}`)}
+                  >
+                    {t('task.view')}
+                  </button>
+                </MenuItem>
+                {canEdit && (
+                  <>
+                    <MenuItem>
+                      <button
+                        type="button"
+                        className="block w-full rounded-lg px-3 py-2 text-left text-sm text-ink data-[focus]:bg-accent-soft data-[focus]:text-accent"
+                        onClick={() => navigate(`${location.pathname}?editTask=${task._id}`)}
+                      >
+                        {t('task.edit')}
+                      </button>
+                    </MenuItem>
+                    <MenuItem>
+                      <button
+                        type="button"
+                        className="block w-full rounded-lg px-3 py-2 text-left text-sm text-danger data-[focus]:bg-danger/10"
+                        onClick={() => mutate({ projectId, taskId: task._id })}
+                      >
+                        {t('task.delete')}
+                      </button>
+                    </MenuItem>
+                  </>
+                )}
+              </MenuItems>
+            </Menu>
           )}
-        >
-          <span className={cn('h-1.5 w-1.5 rounded-full', statusAccent[task.status])} />
-          {statusLabels[task.status]}
-        </span>
-        {showMenu && (
-          <Menu as="div" className="relative shrink-0" onClick={(e) => e.stopPropagation()}>
-            <MenuButton
-              className="rounded-lg p-1 text-muted opacity-0 transition duration-200 group-hover:opacity-100 hover:bg-mist/80 hover:text-ink data-[open]:opacity-100"
-              onPointerDown={(e) => e.stopPropagation()}
-            >
-              <span className="sr-only">{t('common.options')}</span>
-              <Ellipsis className="h-4 w-4" />
-            </MenuButton>
-            <MenuItems
-              transition
-              className="absolute right-0 z-dropdown mt-1 w-44 origin-top-right rounded-2xl border border-glass-border bg-glass-strong p-1 shadow-lift backdrop-blur-xl transition duration-200 ease-out data-[closed]:scale-95 data-[closed]:opacity-0"
-            >
-              <MenuItem>
-                <button
-                  type="button"
-                  className="block w-full rounded-xl px-3 py-2 text-left text-sm text-ink data-[focus]:bg-accent-soft"
-                  onClick={() => navigate(`${location.pathname}?viewTask=${task._id}`)}
-                >
-                  {t('task.view')}
-                </button>
-              </MenuItem>
-              {canEdit && (
-                <>
-                  <MenuItem>
-                    <button
-                      type="button"
-                      className="block w-full rounded-xl px-3 py-2 text-left text-sm text-ink data-[focus]:bg-accent-soft"
-                      onClick={() => navigate(`${location.pathname}?editTask=${task._id}`)}
-                    >
-                      {t('task.edit')}
-                    </button>
-                  </MenuItem>
-                  <MenuItem>
-                    <button
-                      type="button"
-                      className="block w-full rounded-xl px-3 py-2 text-left text-sm text-danger data-[focus]:bg-danger/10"
-                      onClick={() => mutate({ projectId, taskId: task._id })}
-                    >
-                      {t('task.delete')}
-                    </button>
-                  </MenuItem>
-                </>
-              )}
-            </MenuItems>
-          </Menu>
-        )}
+        </div>
       </div>
 
-      <p className="text-[15px] font-semibold leading-snug text-ink">{task.name}</p>
-      {task.description && (
-        <p className="mt-1 line-clamp-2 text-sm text-muted">{task.description}</p>
-      )}
+      <div className="p-3.5">
+        <p className="line-clamp-3 text-sm leading-relaxed text-ink/80">{task.description}</p>
 
-      {noteCount > 0 && (
-        <div className="mt-3 flex items-center gap-1.5 text-[11px] font-medium text-muted">
-          <MessageCircle className="h-3 w-3" />
-          {t('task.notes_count', { count: noteCount })}
-        </div>
-      )}
-    </div>
+        {noteCount > 0 && (
+          <div className="mt-3 flex items-center gap-1.5 text-[11px] font-medium text-muted">
+            <MessageCircle className="h-3 w-3" />
+            {t('task.notes_count', { count: noteCount })}
+          </div>
+        )}
+      </div>
+    </>
   )
 }
 
@@ -170,7 +167,7 @@ export default function TaskCard({ task, canEdit, overlay = false }: TaskCardPro
 
   if (overlay) {
     return (
-      <div className="task-card cursor-grabbing shadow-drag ring-2 ring-white/80 dark:ring-white/15">
+      <div className="task-card cursor-grabbing rotate-[-2deg] shadow-drag ring-2 ring-accent/40">
         <CardBody task={task} canEdit={false} showMenu={false} />
       </div>
     )

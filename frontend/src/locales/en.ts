@@ -29,9 +29,6 @@ export const messages = {
   'nav.toggleLang': 'Switch to Spanish',
   'nav.footer': '© {year} Granger',
 
-  // Theme toggle aria
-  'theme.toLight': 'Switch to light mode',
-  'theme.toDark': 'Switch to dark mode',
 
   // Auth: Login
   'login.title': 'Sign in',
@@ -286,7 +283,7 @@ export const messages = {
 
   // Demo nav
   'demo.title': 'Demo screens',
-  'demo.subtitle': 'Backend off — browsing with mock data. Toggle theme from the header.',
+  'demo.subtitle': 'Backend off — browsing with mock data.',
   'demo.groupAuth': 'Auth',
   'demo.groupApp': 'App',
   'demo.groupOther': 'Other',
@@ -302,9 +299,9 @@ export const statusTranslations: Record<TaskStatus, string> = {
 }
 
 export const statusAccent: Record<TaskStatus, string> = {
-  pending: 'bg-slate-400',
-  onHold: 'bg-rose-400',
-  inProgress: 'bg-sky-400',
-  underReview: 'bg-amber-400',
-  completed: 'bg-emerald-400',
+  pending: 'bg-navy-muted',
+  onHold: 'bg-pink',
+  inProgress: 'bg-accent',
+  underReview: 'bg-brass',
+  completed: 'bg-success',
 }

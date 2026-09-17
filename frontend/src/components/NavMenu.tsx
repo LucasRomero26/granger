@@ -1,8 +1,7 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import { Link, useNavigate } from 'react-router-dom'
-import { useQueryClient } from '@tanstack/react-query'
+import { Link } from 'react-router-dom'
 import { ChevronDown, FolderKanban, LogOut, User } from 'lucide-react'
-import { logoutUser } from '@/api/AuthAPI'
+import { useLogout } from '@/hooks/useLogout'
 import { useT } from '@/hooks/useT'
 
 type NavMenuProps = {
@@ -11,23 +10,12 @@ type NavMenuProps = {
 }
 
 export default function NavMenu({ name, avatar }: NavMenuProps) {
-  const navigate = useNavigate()
-  const queryClient = useQueryClient()
+  const logout = useLogout()
   const t = useT()
-
-  const logout = async () => {
-    try {
-      await logoutUser()
-    } catch {
-      /* Even if the backend logout fails, clear the local state */
-    }
-    queryClient.invalidateQueries({ queryKey: ['user'] })
-    navigate('/auth/login')
-  }
 
   return (
     <Menu as="div" className="relative">
-      <MenuButton className="inline-flex items-center gap-2 rounded-2xl border border-glass-border bg-glass px-3 py-2 text-sm font-medium text-ink backdrop-blur-xl transition hover:bg-glass-strong">
+      <MenuButton className="inline-flex items-center gap-2 rounded-xl border border-glass-border bg-frost px-2.5 py-1.5 text-sm font-medium text-ink transition hover:bg-glass">
         {avatar ? (
           <img
             src={avatar}
@@ -45,12 +33,12 @@ export default function NavMenu({ name, avatar }: NavMenuProps) {
       </MenuButton>
       <MenuItems
         transition
-        className="absolute right-0 z-dropdown mt-2 w-56 origin-top-right rounded-2xl border border-glass-border bg-glass-strong p-1.5 shadow-lift backdrop-blur-xl transition data-[closed]:scale-95 data-[closed]:opacity-0"
+        className="absolute right-0 z-dropdown mt-2 w-56 origin-top-right rounded-xl border border-glass-border bg-frost p-1.5 shadow-lift transition data-[closed]:scale-95 data-[closed]:opacity-0"
       >
         <MenuItem>
           <Link
             to="/profile"
-            className="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm text-ink data-[focus]:bg-accent-soft"
+            className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-ink data-[focus]:bg-accent-soft data-[focus]:text-accent"
           >
             <User className="h-4 w-4" /> {t('nav.myProfile')}
           </Link>
@@ -58,7 +46,7 @@ export default function NavMenu({ name, avatar }: NavMenuProps) {
         <MenuItem>
           <Link
             to="/"
-            className="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm text-ink data-[focus]:bg-accent-soft"
+            className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-ink data-[focus]:bg-accent-soft data-[focus]:text-accent"
           >
             <FolderKanban className="h-4 w-4" /> {t('nav.myProjects')}
           </Link>
@@ -67,7 +55,7 @@ export default function NavMenu({ name, avatar }: NavMenuProps) {
           <button
             type="button"
             onClick={logout}
-            className="flex w-full items-center gap-2 rounded-xl px-3 py-2.5 text-sm text-danger data-[focus]:bg-danger/10"
+            className="flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-danger data-[focus]:bg-danger/10"
           >
             <LogOut className="h-4 w-4" /> {t('nav.signOut')}
           </button>
