@@ -30,6 +30,10 @@ export const messages = {
   'nav.footer': '© {year} Granger',
 
 
+  // Auth layout
+  'auth.tagline': 'Plan projects.\nShip on time.',
+  'auth.taglineSub': 'Boards, tasks and notes for teams that like things tidy.',
+
   // Auth: Login
   'login.title': 'Sign in',
   'login.subtitle': 'Start planning your projects by signing in to Granger.',

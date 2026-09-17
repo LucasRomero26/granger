@@ -2,6 +2,16 @@ import type { Note, Project, Task, TeamMember, User } from '@/types'
 
 export const isDemoMode = import.meta.env.VITE_DEMO_MODE === 'true'
 
+/** Password accepted by the demo login for any known demo account. */
+export const DEMO_PASSWORD = 'TestPass123'
+/** Extra account the E2E suite signs in with. */
+export const DEMO_TEST_EMAIL = 'testlocal@granger.test'
+
+/** Mongo-like 24-char hex id so created records look like real ones. */
+function demoObjectId(): string {
+  return Array.from({ length: 24 }, () => Math.floor(Math.random() * 16).toString(16)).join('')
+}
+
 export const DEMO_USER: User = {
   _id: 'demo-user-1',
   name: 'Alex Writer',
@@ -208,6 +218,8 @@ let demoProject = structuredClone(DEMO_PROJECT)
 let demoProjects = structuredClone(DEMO_PROJECTS)
 let demoTeam = structuredClone(DEMO_TEAM)
 let demoUser = structuredClone(DEMO_USER)
+/** Full records for projects created during the session (board + team). */
+let createdProjects = new Map<string, Project>()
 
 export function resetDemoState() {
   demoTasks = structuredClone(DEMO_TASKS)
@@ -215,10 +227,14 @@ export function resetDemoState() {
   demoProjects = structuredClone(DEMO_PROJECTS)
   demoTeam = structuredClone(DEMO_TEAM)
   demoUser = structuredClone(DEMO_USER)
+  createdProjects = new Map()
 }
 
 function syncProjectTasks() {
-  demoProject.tasks = demoTasks
+  demoProject.tasks = demoTasks.filter((t) => t.project === demoProject._id)
+  for (const project of createdProjects.values()) {
+    project.tasks = demoTasks.filter((t) => t.project === project._id)
+  }
 }
 
 type MockResult = {
@@ -237,6 +253,12 @@ export function handleDemoRequest(
 
   // Auth
   if (m === 'POST' && path === 'auth/login') {
+    const email = String(payload.email ?? '')
+    const password = String(payload.password ?? '')
+    const knownEmails = [demoUser.email, DEMO_TEST_EMAIL, ...demoTeam.map((mbr) => mbr.email)]
+    if (!knownEmails.includes(email) || password !== DEMO_PASSWORD) {
+      return { status: 401, data: { error: 'Invalid credentials' } }
+    }
     return {
       status: 200,
       data: {
@@ -292,14 +314,26 @@ export function handleDemoRequest(
     return { status: 200, data: demoProjects }
   }
   if (m === 'POST' && path === 'projects') {
-    const created = {
-      _id: `demo-project-${Date.now()}`,
+    const created: Project = {
+      _id: demoObjectId(),
       projectName: String(payload.projectName ?? 'New project'),
       clientName: String(payload.clientName ?? 'Client'),
       description: String(payload.description ?? ''),
       manager: demoUser._id,
+      tasks: [],
+      team: [],
     }
-    demoProjects = [created, ...demoProjects]
+    createdProjects.set(created._id, created)
+    demoProjects = [
+      {
+        _id: created._id,
+        projectName: created.projectName,
+        clientName: created.clientName,
+        description: created.description,
+        manager: demoUser._id,
+      },
+      ...demoProjects,
+    ]
     return { status: 200, data: 'Project created' }
   }
   if (m === 'GET' && path.startsWith('projects/') && !path.includes('/tasks') && !path.includes('/team')) {
@@ -307,6 +341,11 @@ export function handleDemoRequest(
     if (id === DEMO_PROJECT_ID || id === demoProject._id) {
       syncProjectTasks()
       return { status: 200, data: demoProject }
+    }
+    const created = createdProjects.get(id)
+    if (created) {
+      syncProjectTasks()
+      return { status: 200, data: created }
     }
     const listed = demoProjects.find((p) => p._id === id)
     if (listed) {
@@ -340,21 +379,28 @@ export function handleDemoRequest(
         description: String(payload.description ?? demoProject.description),
       }
     }
+    const created = createdProjects.get(id)
+    if (created) {
+      created.projectName = String(payload.projectName ?? created.projectName)
+      created.clientName = String(payload.clientName ?? created.clientName)
+      created.description = String(payload.description ?? created.description)
+    }
     return { status: 200, data: 'Project updated' }
   }
   if (m === 'DELETE' && path.startsWith('projects/') && path.split('/').length === 2) {
     const id = path.split('/')[1]
     demoProjects = demoProjects.filter((p) => p._id !== id)
+    createdProjects.delete(id)
     return { status: 200, data: 'Project deleted' }
   }
 
   // Tasks
   if (m === 'POST' && /projects\/[^/]+\/tasks$/.test(path)) {
     const task: Task = {
-      _id: `demo-task-${Date.now()}`,
+      _id: demoObjectId(),
       name: String(payload.name ?? 'New task'),
       description: String(payload.description ?? ''),
-      project: DEMO_PROJECT_ID,
+      project: path.split('/')[1],
       status: 'pending',
       completedBy: [],
       notes: [],
@@ -419,7 +465,7 @@ export function handleDemoRequest(
   if (m === 'POST' && /projects\/[^/]+\/tasks\/[^/]+\/notes$/.test(path)) {
     const taskId = path.split('/')[3]
     const note: Note = {
-      _id: `demo-note-${Date.now()}`,
+      _id: demoObjectId(),
       content: String(payload.content ?? ''),
       createdBy: demoUser,
       task: taskId,

@@ -30,6 +30,10 @@ export const messages = {
   'nav.footer': '© {year} Granger',
 
 
+  // Auth layout
+  'auth.tagline': 'Planifica proyectos.\nEntrega a tiempo.',
+  'auth.taglineSub': 'Tableros, tareas y notas para equipos que prefieren el orden.',
+
   // Auth: Login
   'login.title': 'Iniciar sesión',
   'login.subtitle': 'Empieza a planificar tus proyectos iniciando sesión en Granger.',
