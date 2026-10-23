@@ -10,12 +10,14 @@ import { Input } from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 import PageTransition from '@/components/ui/PageTransition'
 import { useT } from '@/hooks/useT'
+import { usePageMeta } from '@/hooks/usePageMeta'
 
 export default function NewPasswordView() {
   const [isValidToken, setIsValidToken] = useState(false)
   const [token, setToken] = useState('')
   const navigate = useNavigate()
   const t = useT()
+  usePageMeta('newPassword')
 
   const {
     register,

@@ -257,6 +257,7 @@ export const messages = {
   'avatar.invalidType': 'Only PNG, JPEG, WEBP or GIF are allowed',
   'avatar.tooBig': 'Image cannot exceed 1.5 MB',
   'avatar.changeAria': 'Change avatar',
+  'avatar.alt': 'Profile picture of {name}',
   'avatar.hint': 'Click the avatar to upload a new one (max 1.5 MB)',
 
   // Validation errors
@@ -282,8 +283,9 @@ export const messages = {
 
   // 404
   'notFound.title': 'Page not found',
-  'notFound.body': 'You might want to go back to',
-  'notFound.link': 'Projects',
+  'notFound.body': "The page you are looking for doesn't exist or has been moved. Check the address or head back to your projects.",
+  'notFound.home': 'Back to my projects',
+  'notFound.login': 'Sign in',
 
   // Demo nav
   'demo.title': 'Demo screens',

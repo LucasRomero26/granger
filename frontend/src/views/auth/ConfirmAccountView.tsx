@@ -6,10 +6,12 @@ import { confirmAccount } from '@/api/AuthAPI'
 import OTPInput from '@/components/ui/OTPInput'
 import PageTransition from '@/components/ui/PageTransition'
 import { useT } from '@/hooks/useT'
+import { usePageMeta } from '@/hooks/usePageMeta'
 
 export default function ConfirmAccountView() {
   const [token, setToken] = useState('')
   const t = useT()
+  usePageMeta('confirmAccount')
   const navigate = useNavigate()
   const location = useLocation()
   const email = (location.state as { email?: string } | null)?.email ?? ''

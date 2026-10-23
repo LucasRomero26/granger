@@ -60,7 +60,7 @@ export default function Sidebar({ name, email, avatar }: SidebarProps) {
           {avatar ? (
             <img
               src={avatar}
-              alt={name}
+              alt={t('avatar.alt', { name })}
               className="h-11 w-11 rounded-full object-cover ring-2 ring-white/15"
               referrerPolicy="no-referrer"
             />

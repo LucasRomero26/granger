@@ -257,6 +257,7 @@ export const messages = {
   'avatar.invalidType': 'Solo se permiten PNG, JPEG, WEBP o GIF',
   'avatar.tooBig': 'La imagen no puede superar 1.5 MB',
   'avatar.changeAria': 'Cambiar avatar',
+  'avatar.alt': 'Foto de perfil de {name}',
   'avatar.hint': 'Haz clic en el avatar para subir uno nuevo (máx 1.5 MB)',
 
   // Validation errors
@@ -282,8 +283,9 @@ export const messages = {
 
   // 404
   'notFound.title': 'Página no encontrada',
-  'notFound.body': 'Quizás quieras volver a',
-  'notFound.link': 'Proyectos',
+  'notFound.body': 'La página que buscas no existe o fue movida. Revisa la dirección o vuelve a tus proyectos.',
+  'notFound.home': 'Volver a mis proyectos',
+  'notFound.login': 'Iniciar sesión',
 
   // Demo nav
   'demo.title': 'Pantallas de demo',

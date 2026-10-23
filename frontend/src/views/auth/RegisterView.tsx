@@ -9,6 +9,7 @@ import Button from '@/components/ui/Button'
 import PageTransition from '@/components/ui/PageTransition'
 import OAuthButtons from '@/components/auth/OAuthButtons'
 import { useT } from '@/hooks/useT'
+import { usePageMeta } from '@/hooks/usePageMeta'
 
 function Divider({ children }: { children: React.ReactNode }) {
   return (
@@ -22,6 +23,7 @@ function Divider({ children }: { children: React.ReactNode }) {
 
 export default function RegisterView() {
   const t = useT()
+  usePageMeta('register')
   const navigate = useNavigate()
   const {
     register,

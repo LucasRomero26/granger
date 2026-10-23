@@ -49,7 +49,7 @@ export default function Logo({
     >
       <img
         src={tone === 'light' ? logoLight : logoDark}
-        alt="Granger"
+        alt="Granger logo"
         width={px}
         height={px}
         decoding="async"

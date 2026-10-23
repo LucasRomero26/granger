@@ -10,6 +10,7 @@ import EmptyState from '@/components/ui/EmptyState'
 import PageTransition from '@/components/ui/PageTransition'
 import Spinner from '@/components/ui/Spinner'
 import { useT } from '@/hooks/useT'
+import { usePageMeta } from '@/hooks/usePageMeta'
 
 export default function ProjectTeamView() {
   const params = useParams()
@@ -17,6 +18,7 @@ export default function ProjectTeamView() {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const t = useT()
+  usePageMeta('team')
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['projectTeam', projectId],

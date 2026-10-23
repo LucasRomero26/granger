@@ -5,6 +5,7 @@ import toast from 'react-hot-toast'
 import { setAccessToken } from '@/lib/axios'
 import Spinner from '@/components/ui/Spinner'
 import { useT } from '@/hooks/useT'
+import { usePageMeta } from '@/hooks/usePageMeta'
 
 function safeNextPath(next?: string | null): string {
   if (typeof next !== 'string') return '/'
@@ -18,6 +19,7 @@ export default function OAuthSuccessView() {
   const queryClient = useQueryClient()
   const [params] = useSearchParams()
   const t = useT()
+  usePageMeta('oauthSuccess')
 
   useEffect(() => {
     const accessToken = params.get('accessToken')
@@ -35,5 +37,10 @@ export default function OAuthSuccessView() {
     navigate(next, { replace: true })
   }, [params, navigate, queryClient, t])
 
-  return <Spinner />
+  return (
+    <>
+      <h1 className="sr-only">{t('oauth.processing')}</h1>
+      <Spinner />
+    </>
+  )
 }

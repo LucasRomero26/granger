@@ -9,10 +9,12 @@ import ProjectForm from '@/components/projects/ProjectForm'
 import Button from '@/components/ui/Button'
 import PageTransition from '@/components/ui/PageTransition'
 import { useT } from '@/hooks/useT'
+import { usePageMeta } from '@/hooks/usePageMeta'
 
 export default function CreateProjectView() {
   const navigate = useNavigate()
   const t = useT()
+  usePageMeta('createProject')
   const {
     register,
     handleSubmit,

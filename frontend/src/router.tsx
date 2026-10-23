@@ -41,8 +41,9 @@ export default function Router() {
           <Route path="/auth/forgot-password" element={<ForgotPasswordView />} />
           <Route path="/auth/new-password" element={<NewPasswordView />} />
           <Route path="/auth/oauth-success" element={<OAuthSuccessView />} />
-          <Route path="*" element={<NotFound />} />
         </Route>
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <DemoNav />
     </BrowserRouter>

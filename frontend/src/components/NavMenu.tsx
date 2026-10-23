@@ -19,7 +19,7 @@ export default function NavMenu({ name, avatar }: NavMenuProps) {
         {avatar ? (
           <img
             src={avatar}
-            alt={name}
+            alt={t('avatar.alt', { name })}
             className="h-7 w-7 rounded-full object-cover"
             referrerPolicy="no-referrer"
           />

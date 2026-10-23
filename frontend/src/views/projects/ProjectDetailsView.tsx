@@ -5,6 +5,7 @@ import { Plus, Users } from 'lucide-react'
 import { getFullProject } from '@/api/ProjectAPI'
 import { useAuth } from '@/hooks/useAuth'
 import { useT } from '@/hooks/useT'
+import { usePageMeta } from '@/hooks/usePageMeta'
 import { isManager } from '@/utils/policies'
 import { userIdOf, type User } from '@/types'
 import TaskList from '@/components/tasks/TaskList'
@@ -27,6 +28,8 @@ export default function ProjectDetailsView() {
     queryFn: () => getFullProject(projectId),
     retry: false,
   })
+
+  usePageMeta('project', { subject: data?.projectName, description: data?.description })
 
   if (isLoading) return <Spinner />
   if (isError) return <Navigate to="/404" replace />
@@ -63,7 +66,7 @@ export default function ProjectDetailsView() {
                   {avatar ? (
                     <img
                       src={avatar}
-                      alt={name ?? 'member'}
+                      alt={t('avatar.alt', { name: name ?? id ?? '' })}
                       className="h-full w-full object-cover"
                     />
                   ) : (

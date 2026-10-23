@@ -4,6 +4,7 @@ import { Plus } from 'lucide-react'
 import { getProjects } from '@/api/ProjectAPI'
 import { useAuth } from '@/hooks/useAuth'
 import { useT } from '@/hooks/useT'
+import { usePageMeta } from '@/hooks/usePageMeta'
 import DeleteProjectModal from '@/components/projects/DeleteProjectModal'
 import ProjectCard from '@/components/projects/ProjectCard'
 import Button from '@/components/ui/Button'
@@ -18,6 +19,7 @@ export default function DashboardView() {
     queryFn: getProjects,
   })
   const t = useT()
+  usePageMeta('home')
 
   if (isLoading || authLoading) return <Spinner />
   if (!data || !user) return null

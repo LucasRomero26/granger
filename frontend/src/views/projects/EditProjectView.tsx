@@ -10,6 +10,7 @@ import Button from '@/components/ui/Button'
 import PageTransition from '@/components/ui/PageTransition'
 import Spinner from '@/components/ui/Spinner'
 import { useT } from '@/hooks/useT'
+import { usePageMeta } from '@/hooks/usePageMeta'
 
 export default function EditProjectView() {
   const params = useParams()
@@ -48,6 +49,8 @@ export default function EditProjectView() {
       navigate('/')
     },
   })
+
+  usePageMeta('editProject', { subject: data?.projectName })
 
   if (isLoading) return <Spinner />
   if (isError) return <Navigate to="/404" replace />
