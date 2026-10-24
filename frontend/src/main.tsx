@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { LanguageProvider } from '@/hooks/useLanguage'
 import Router from '@/router'
+import '@fontsource-variable/dm-sans/opsz.css'
 import './index.css'
 
 const queryClient = new QueryClient()

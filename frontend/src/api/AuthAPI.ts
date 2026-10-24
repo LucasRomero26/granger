@@ -1,4 +1,4 @@
-import api, { setAccessToken } from '@/lib/axios'
+import api, { hasSession, setAccessToken } from '@/lib/axios'
 import { isAxiosError } from 'axios'
 import type {
   CheckPasswordForm,
@@ -103,6 +103,7 @@ export async function updatePasswordWithToken({
 type CurrentUser = { _id: string; name: string; email: string }
 
 export async function getUser() {
+  if (!hasSession()) return null
   const { data } = await api.get<CurrentUser>('/auth/user')
   const response = userSchema.safeParse(data)
   if (response.success) {

@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { Link, Navigate, Outlet } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import { motion } from 'framer-motion'
@@ -15,8 +16,7 @@ export default function AppLayout() {
   const t = useT()
 
   if (isLoading) return <Spinner />
-  if (isError) return <Navigate to="/auth/login" replace />
-  if (!data) return null
+  if (isError || !data) return <Navigate to="/auth/login" replace />
 
   return (
     <div className="min-h-screen bg-mist">
@@ -44,7 +44,9 @@ export default function AppLayout() {
         <div className="flex min-w-0 flex-1 flex-col">
           <main className="flex-1 py-2 md:py-4">
             <ErrorBoundary>
-              <Outlet />
+              <Suspense fallback={<Spinner />}>
+                <Outlet />
+              </Suspense>
             </ErrorBoundary>
           </main>
 

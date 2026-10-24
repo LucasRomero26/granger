@@ -15,12 +15,36 @@ import { isDemoMode, handleDemoRequest } from '@/lib/demo'
  *   rotates the httpOnly cookie and returns a new `accessToken` in the body. We
  *   retry the original request a single time.
  * - withCredentials: true is required so the browser sends the cookies.
+ * - The cookies are not readable from JS, so a localStorage flag records that a
+ *   session exists. Without it, anonymous visitors skip /auth/user and
+ *   /auth/refresh entirely instead of getting 401 responses.
  */
+
+const SESSION_FLAG_KEY = 'GRANGER_SESSION'
 
 let inMemoryAccessToken: string | null = null
 
+function setSessionFlag(active: boolean): void {
+  try {
+    if (active) localStorage.setItem(SESSION_FLAG_KEY, '1')
+    else localStorage.removeItem(SESSION_FLAG_KEY)
+  } catch {
+    return
+  }
+}
+
+export function hasSession(): boolean {
+  if (inMemoryAccessToken) return true
+  try {
+    return localStorage.getItem(SESSION_FLAG_KEY) === '1'
+  } catch {
+    return false
+  }
+}
+
 export function setAccessToken(token: string | null): void {
   inMemoryAccessToken = token
+  setSessionFlag(token !== null)
 }
 
 export function getAccessToken(): string | null {

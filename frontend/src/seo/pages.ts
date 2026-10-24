@@ -112,7 +112,7 @@ export const PAGES = {
   },
   forgotPassword: {
     path: '/auth/forgot-password',
-    indexable: true,
+    indexable: false,
     prerender: true,
     en: {
       title: 'Reset your password | Granger',

@@ -1,8 +1,10 @@
+import { Suspense } from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import { motion } from 'framer-motion'
 import LanguageToggle from '@/components/ui/LanguageToggle'
 import ErrorBoundary from '@/components/ui/ErrorBoundary'
+import Spinner from '@/components/ui/Spinner'
 import { useT } from '@/hooks/useT'
 
 export default function AuthLayout() {
@@ -41,7 +43,9 @@ export default function AuthLayout() {
             {t('app.name')}
           </span>
           <ErrorBoundary>
-            <Outlet />
+            <Suspense fallback={<Spinner />}>
+              <Outlet />
+            </Suspense>
           </ErrorBoundary>
         </motion.div>
       </div>

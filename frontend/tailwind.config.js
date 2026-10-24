@@ -35,8 +35,8 @@ export default {
         success: withAlpha('--color-success'),
       },
       fontFamily: {
-        display: ['"DM Sans"', 'system-ui', 'sans-serif'],
-        sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
+        display: ['"DM Sans Variable"', 'system-ui', 'sans-serif'],
+        sans: ['"DM Sans Variable"', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         '2xl': '1rem',

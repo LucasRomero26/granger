@@ -26,7 +26,7 @@ export const messages = {
   'nav.myProfile': 'Mi perfil',
   'nav.myProjects': 'Mis proyectos',
   'nav.signOut': 'Cerrar sesión',
-  'nav.toggleLang': 'Cambiar a inglés',
+  'nav.toggleLang': '{lang}, cambiar a inglés',
   'nav.footer': '© {year} Granger',
 
 

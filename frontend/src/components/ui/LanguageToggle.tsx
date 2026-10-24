@@ -7,17 +7,18 @@ import Button from './Button'
 export default function LanguageToggle({ className }: { className?: string }) {
   const { lang, toggleLang } = useLanguage()
   const t = useT()
+  const code = lang.toUpperCase()
 
   return (
     <Button
       variant="ghost"
       size="sm"
       onClick={toggleLang}
-      aria-label={t('nav.toggleLang')}
+      aria-label={t('nav.toggleLang', { lang: code })}
       className={cn('!rounded-full !px-3 !py-2 !text-xs !font-semibold', className)}
     >
       <Languages className="h-4 w-4" />
-      <span className="uppercase">{lang}</span>
+      <span>{code}</span>
     </Button>
   )
 }
