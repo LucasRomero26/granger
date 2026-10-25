@@ -79,7 +79,7 @@ export default function LoginView() {
           data-testid="login-password"
           {...register('password', { required: t('validation.password') })}
         />
-        <Button type="submit" className="w-full" disabled={isPending} data-testid="login-submit">
+        <Button type="submit" className="w-full" loading={isPending} data-testid="login-submit">
           {isPending ? t('login.submitting') : t('login.submit')}
         </Button>
       </form>

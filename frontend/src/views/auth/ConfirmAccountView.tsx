@@ -4,6 +4,7 @@ import { useMutation } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 import { confirmAccount } from '@/api/AuthAPI'
 import OTPInput from '@/components/ui/OTPInput'
+import { InlineSpinner } from '@/components/ui/Spinner'
 import PageTransition from '@/components/ui/PageTransition'
 import { useT } from '@/hooks/useT'
 import { usePageMeta } from '@/hooks/usePageMeta'
@@ -42,6 +43,12 @@ export default function ConfirmAccountView() {
           length={8}
           disabled={isPending}
         />
+        {isPending && (
+          <p className="mt-3 flex items-center justify-center gap-2 text-sm text-muted" role="status">
+            <InlineSpinner />
+            {t('common.verifyingCode')}
+          </p>
+        )}
       </div>
 
       <nav className="mt-5 text-center text-sm text-muted">

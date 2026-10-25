@@ -69,7 +69,7 @@ export default function ProfileForm({ data }: ProfileFormProps) {
             pattern: { value: /\S+@\S+\.\S+/, message: t('validation.emailInvalid') },
           })}
         />
-        <Button type="submit" className="w-full" disabled={isPending}>
+        <Button type="submit" className="w-full" loading={isPending}>
           {isPending ? t('profile.saving') : t('profile.save')}
         </Button>
       </form>

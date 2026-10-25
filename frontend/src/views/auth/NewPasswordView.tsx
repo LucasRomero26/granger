@@ -6,6 +6,7 @@ import toast from 'react-hot-toast'
 import type { NewPasswordForm } from '@/types'
 import { updatePasswordWithToken, validateToken } from '@/api/AuthAPI'
 import OTPInput from '@/components/ui/OTPInput'
+import { InlineSpinner } from '@/components/ui/Spinner'
 import { Input } from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 import PageTransition from '@/components/ui/PageTransition'
@@ -65,7 +66,14 @@ export default function NewPasswordView() {
                 setToken(value)
                 validateMutation.mutate({ token: value })
               }}
+              disabled={validateMutation.isPending}
             />
+            {validateMutation.isPending && (
+              <p className="mt-3 flex items-center justify-center gap-2 text-sm text-muted" role="status">
+                <InlineSpinner />
+                {t('common.verifyingCode')}
+              </p>
+            )}
             <nav className="mt-5 text-center text-sm text-muted">
               <Link to="/auth/forgot-password" className="hover:text-accent">
                 {t('newPassword.requestNew')}
@@ -102,7 +110,7 @@ export default function NewPasswordView() {
                 validate: (value) => value === password || t('validation.match'),
               })}
             />
-            <Button type="submit" className="w-full" disabled={updateMutation.isPending}>
+            <Button type="submit" className="w-full" loading={updateMutation.isPending}>
               {updateMutation.isPending ? t('newPassword.submitting') : t('newPassword.submit')}
             </Button>
           </form>

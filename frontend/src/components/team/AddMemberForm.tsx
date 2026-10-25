@@ -46,7 +46,7 @@ export default function AddMemberForm() {
             pattern: { value: /\S+@\S+\.\S+/, message: t('validation.emailInvalid') },
           })}
         />
-        <Button type="submit" className="w-full" disabled={mutation.isPending}>
+        <Button type="submit" className="w-full" loading={mutation.isPending}>
           {mutation.isPending ? t('team.searching') : t('team.searchSubmit')}
         </Button>
       </form>

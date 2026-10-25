@@ -6,6 +6,7 @@ import type { TaskStatus } from '@/types'
 import { useT, useStatusLabels } from '@/hooks/useT'
 import { formatDate } from '@/utils/utils'
 import Modal from '@/components/ui/Modal'
+import Spinner, { InlineSpinner } from '@/components/ui/Spinner'
 import NotesPanel from '@/components/notes/NotesPanel'
 
 export default function TaskModalDetails() {
@@ -27,7 +28,7 @@ export default function TaskModalDetails() {
   })
 
   const queryClient = useQueryClient()
-  const { mutate } = useMutation({
+  const { mutate, isPending: isSavingStatus } = useMutation({
     mutationFn: updateStatus,
     onError: (err: Error) => toast.error(err.message),
     onSuccess: (message) => {
@@ -43,7 +44,18 @@ export default function TaskModalDetails() {
   }
 
   if (!show) return null
-  if (!data) return null
+  if (!data) {
+    return (
+      <Modal
+        open={show}
+        onClose={() => navigate(location.pathname, { replace: true })}
+        title={t('common.loading')}
+        size="xl"
+      >
+        <Spinner className="py-12" />
+      </Modal>
+    )
+  }
 
   return (
     <Modal
@@ -73,14 +85,24 @@ export default function TaskModalDetails() {
       )}
 
       <div className="mt-6 space-y-2">
-        <label htmlFor="status" className="text-sm font-medium text-ink">
-          {t('task.modal.currentStatus')}
-        </label>
+        <div className="flex items-center justify-between gap-3">
+          <label htmlFor="status" className="text-sm font-medium text-ink">
+            {t('task.modal.currentStatus')}
+          </label>
+          {isSavingStatus && (
+            <span className="inline-flex items-center gap-1.5 text-xs text-muted" role="status">
+              <InlineSpinner className="h-3.5 w-3.5" />
+              {t('common.saving')}
+            </span>
+          )}
+        </div>
         <select
           id="status"
           data-testid="task-status-select"
           className="field"
           defaultValue={data.status}
+          disabled={isSavingStatus}
+          aria-busy={isSavingStatus || undefined}
           onChange={(e) =>
             mutate({
               projectId,

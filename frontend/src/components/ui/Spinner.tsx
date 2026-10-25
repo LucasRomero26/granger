@@ -11,3 +11,13 @@ export default function Spinner({ className }: { className?: string }) {
     </div>
   )
 }
+
+/** Small spinner that inherits the text color, for buttons and inline status. */
+export function InlineSpinner({ className }: { className?: string }) {
+  return (
+    <span
+      className={cn('inline-block h-4 w-4 shrink-0 animate-spin rounded-full border-2 border-current border-t-transparent', className)}
+      aria-hidden
+    />
+  )
+}

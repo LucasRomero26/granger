@@ -55,7 +55,7 @@ function EditTaskModal({ data, taskId }: EditTaskModalProps) {
         noValidate
       >
         <TaskForm register={register} errors={errors} />
-        <Button type="submit" className="w-full" disabled={isPending}>
+        <Button type="submit" className="w-full" loading={isPending}>
           {isPending ? t('task.modal.saving') : t('task.modal.save')}
         </Button>
       </form>

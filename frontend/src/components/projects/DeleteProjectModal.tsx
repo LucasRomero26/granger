@@ -41,10 +41,16 @@ export default function DeleteProjectModal() {
     },
   })
 
+  const isDeleting = checkUserPasswordMutation.isPending || deleteProjectMutation.isPending
+
   const handleForm = async (formData: CheckPasswordForm) => {
     if (!deleteProjectId) return
-    await checkUserPasswordMutation.mutateAsync(formData)
-    await deleteProjectMutation.mutateAsync(deleteProjectId)
+    try {
+      await checkUserPasswordMutation.mutateAsync(formData)
+      await deleteProjectMutation.mutateAsync(deleteProjectId)
+    } catch {
+      // onError already shows the toast
+    }
   }
 
   return (
@@ -64,8 +70,8 @@ export default function DeleteProjectModal() {
           error={errors.password?.message}
           {...register('password', { required: t('validation.password') })}
         />
-        <Button type="submit" variant="danger" className="w-full">
-          {t('project.delete.submit')}
+        <Button type="submit" variant="danger" className="w-full" loading={isDeleting}>
+          {isDeleting ? t('common.deleting') : t('project.delete.submit')}
         </Button>
       </form>
     </Modal>

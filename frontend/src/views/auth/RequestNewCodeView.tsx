@@ -46,7 +46,7 @@ export default function RequestNewCodeView() {
             pattern: { value: /\S+@\S+\.\S+/, message: t('validation.emailInvalid') },
           })}
         />
-        <Button type="submit" className="w-full" disabled={isPending}>
+        <Button type="submit" className="w-full" loading={isPending}>
           {isPending ? t('requestCode.submitting') : t('requestCode.submit')}
         </Button>
       </form>

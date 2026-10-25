@@ -86,7 +86,7 @@ export default function ChangePasswordModal({ open, onClose }: ChangePasswordMod
           })}
         />
         <div className="flex flex-col gap-2 sm:flex-row-reverse sm:justify-start">
-          <Button type="submit" className="w-full sm:w-auto" disabled={isPending}>
+          <Button type="submit" className="w-full sm:w-auto" loading={isPending}>
             {isPending ? t('changePassword.submitting') : t('changePassword.submit')}
           </Button>
           <Button

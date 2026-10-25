@@ -15,6 +15,7 @@ import { deleteTask } from '@/api/TaskAPI'
 import { statusAccent } from '@/locales/en'
 import { useT, useStatusLabels } from '@/hooks/useT'
 import { cn } from '@/utils/utils'
+import { InlineSpinner } from '@/components/ui/Spinner'
 
 const animateLayoutChanges: AnimateLayoutChanges = (args) =>
   defaultAnimateLayoutChanges({ ...args, wasDragging: true })
@@ -52,7 +53,7 @@ function CardBody({
   const queryClient = useQueryClient()
   const noteCount = task.notes?.length ?? 0
 
-  const { mutate } = useMutation({
+  const { mutate, isPending: isDeleting } = useMutation({
     mutationFn: deleteTask,
     onError: (error: Error) => toast.error(error.message),
     onSuccess: (data) => {
@@ -63,6 +64,15 @@ function CardBody({
 
   return (
     <>
+      {isDeleting && (
+        <div
+          className="absolute inset-0 z-10 flex items-center justify-center gap-2 rounded-[inherit] bg-frost/80 text-sm font-medium text-ink backdrop-blur-[1px]"
+          role="status"
+        >
+          <InlineSpinner />
+          {t('common.deleting')}
+        </div>
+      )}
       <div className="flex items-start justify-between gap-2 bg-navy px-3.5 py-3 text-navy-fg">
         <p className="min-w-0 text-sm font-semibold leading-snug">{task.name}</p>
         <div className="flex shrink-0 items-center gap-1">
@@ -107,6 +117,7 @@ function CardBody({
                       <button
                         type="button"
                         className="block w-full rounded-lg px-3 py-2 text-left text-sm text-danger data-[focus]:bg-danger/10"
+                        disabled={isDeleting}
                         onClick={() => mutate({ projectId, taskId: task._id })}
                       >
                         {t('task.delete')}

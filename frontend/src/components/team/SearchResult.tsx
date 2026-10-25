@@ -38,7 +38,7 @@ export default function SearchResult({ user, reset, resetMutation }: SearchResul
       </div>
       <Button
         size="sm"
-        disabled={isPending}
+        loading={isPending}
         onClick={() => mutate({ projectId, id: user._id })}
       >
         {t('team.addMember')}

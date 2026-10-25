@@ -20,7 +20,7 @@ export default function NoteDetail({ note }: NoteDetailProps) {
   const taskId = queryParams.get('viewTask')!
   const queryClient = useQueryClient()
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: deleteNote,
     onError: (error: Error) => toast.error(error.message),
     onSuccess: (data) => {
@@ -40,9 +40,10 @@ export default function NoteDetail({ note }: NoteDetailProps) {
           variant="ghost"
           size="sm"
           className="!text-danger"
+          loading={isPending}
           onClick={() => mutate({ projectId, taskId, noteId: note._id })}
         >
-          {t('note.delete')}
+          {isPending ? t('common.deleting') : t('note.delete')}
         </Button>
       )}
     </div>

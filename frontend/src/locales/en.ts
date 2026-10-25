@@ -19,6 +19,9 @@ export const messages = {
   'common.search': 'Search',
   'common.options': 'Options',
   'common.loading': 'Loading',
+  'common.verifyingCode': 'Verifying code…',
+  'common.deleting': 'Deleting…',
+  'common.removing': 'Removing…',
 
   // Nav / header
   'nav.hi': 'Hi, {name}',

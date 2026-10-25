@@ -98,7 +98,7 @@ export default function RegisterView() {
             validate: (value) => value === password || t('validation.match'),
           })}
         />
-        <Button type="submit" className="w-full" disabled={isPending}>
+        <Button type="submit" className="w-full" loading={isPending}>
           {isPending ? t('register.submitting') : t('register.submit')}
         </Button>
       </form>

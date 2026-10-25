@@ -48,7 +48,7 @@ export default function AddNoteForm() {
           {...register('content', { required: t('validation.noteContent') })}
         />
       </div>
-      <Button type="submit" className="sm:mt-7" disabled={isPending} data-testid="add-note-submit">
+      <Button type="submit" className="sm:mt-7" loading={isPending} data-testid="add-note-submit">
         {t('note.add')}
       </Button>
     </form>

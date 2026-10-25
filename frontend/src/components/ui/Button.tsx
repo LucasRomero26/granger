@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import type { ReactNode } from 'react'
 import { cn } from '@/utils/utils'
+import { InlineSpinner } from './Spinner'
 
 type Variant = 'primary' | 'secondary' | 'ghost' | 'danger'
 type Size = 'sm' | 'md' | 'lg'
@@ -12,6 +13,8 @@ type ButtonProps = {
   className?: string
   type?: 'button' | 'submit' | 'reset'
   disabled?: boolean
+  /** Shows a spinner and blocks clicks while a request is in flight. */
+  loading?: boolean
   onClick?: () => void
   'aria-label'?: string
   'data-testid'?: string
@@ -37,16 +40,19 @@ export default function Button({
   children,
   type = 'button',
   disabled,
+  loading = false,
   onClick,
   ...props
 }: ButtonProps) {
+  const inactive = disabled || loading
   return (
     <motion.button
       type={type}
-      disabled={disabled}
+      disabled={inactive}
+      aria-busy={loading || undefined}
       onClick={onClick}
-      whileHover={disabled ? undefined : { scale: 1.015, y: -1 }}
-      whileTap={disabled ? undefined : { scale: 0.985 }}
+      whileHover={inactive ? undefined : { scale: 1.015, y: -1 }}
+      whileTap={inactive ? undefined : { scale: 0.985 }}
       transition={{ type: 'spring', stiffness: 380, damping: 28 }}
       className={cn(
         'inline-flex items-center justify-center gap-2 font-semibold transition-colors duration-300 ease-out disabled:cursor-not-allowed disabled:opacity-50',
@@ -56,6 +62,7 @@ export default function Button({
       )}
       {...props}
     >
+      {loading && <InlineSpinner />}
       {children}
     </motion.button>
   )

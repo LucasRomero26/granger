@@ -76,7 +76,7 @@ export default function EditProjectView() {
         noValidate
       >
         <ProjectForm register={register} errors={errors} />
-        <Button type="submit" className="w-full" disabled={isPending}>
+        <Button type="submit" className="w-full" loading={isPending}>
           {isPending ? t('project.edit.submitting') : t('project.edit.submit')}
         </Button>
       </form>

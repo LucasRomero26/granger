@@ -8,7 +8,7 @@ import AddMemberModal from '@/components/team/AddMemberModal'
 import Button from '@/components/ui/Button'
 import EmptyState from '@/components/ui/EmptyState'
 import PageTransition from '@/components/ui/PageTransition'
-import Spinner from '@/components/ui/Spinner'
+import Spinner, { InlineSpinner } from '@/components/ui/Spinner'
 import { useT } from '@/hooks/useT'
 import { usePageMeta } from '@/hooks/usePageMeta'
 
@@ -26,7 +26,7 @@ export default function ProjectTeamView() {
     retry: false,
   })
 
-  const { mutate } = useMutation({
+  const { mutate, isPending: isRemoving, variables: removing } = useMutation({
     mutationFn: removeUserFromProject,
     onError: (error: Error) => toast.error(error.message),
     onSuccess: (message) => {
@@ -68,6 +68,12 @@ export default function ProjectTeamView() {
                 <p className="font-semibold text-ink">{member.name}</p>
                 <p className="text-sm text-muted">{member.email}</p>
               </div>
+              {isRemoving && removing?.userId === member._id ? (
+                <span className="inline-flex items-center gap-2 text-sm text-muted" role="status">
+                  <InlineSpinner />
+                  {t('common.removing')}
+                </span>
+              ) : (
               <Menu as="div" className="relative">
                 <MenuButton className="rounded-lg p-1.5 text-muted transition hover:bg-mist hover:text-ink">
                   <span className="sr-only">{t('common.options')}</span>
@@ -88,6 +94,7 @@ export default function ProjectTeamView() {
                   </MenuItem>
                 </MenuItems>
               </Menu>
+              )}
             </li>
           ))}
         </ul>

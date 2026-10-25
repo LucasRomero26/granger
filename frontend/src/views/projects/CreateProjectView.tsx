@@ -53,7 +53,7 @@ export default function CreateProjectView() {
         data-testid="create-project-form"
       >
         <ProjectForm register={register} errors={errors} />
-        <Button type="submit" className="w-full" disabled={isPending} data-testid="create-project-submit">
+        <Button type="submit" className="w-full" loading={isPending} data-testid="create-project-submit">
           {isPending ? t('project.create.submitting') : t('project.create.submit')}
         </Button>
       </form>

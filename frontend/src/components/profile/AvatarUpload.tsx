@@ -78,7 +78,11 @@ export default function AvatarUpload({ user }: AvatarUploadProps) {
               {user.name.charAt(0).toUpperCase()}
             </span>
           )}
-          <span className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition group-hover:opacity-100">
+          <span
+            className={`absolute inset-0 flex items-center justify-center bg-black/40 transition ${
+              uploadMutation.isPending ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+            }`}
+          >
             {uploadMutation.isPending ? (
               <Loader2 className="h-5 w-5 animate-spin text-white" />
             ) : (
