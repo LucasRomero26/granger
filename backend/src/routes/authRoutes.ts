@@ -1,6 +1,5 @@
 import { Router } from 'express'
 import { AuthController } from '../controllers/AuthController'
-import { OAuthController } from '../controllers/OAuthController'
 import { authenticate } from '../middleware/auth'
 import { asyncHandler } from '../middleware/asyncHandler'
 import {
@@ -24,7 +23,6 @@ import {
   authRateLimiter,
   passwordResetRateLimiter,
   registerRateLimiter,
-  oauthCallbackRateLimiter,
   confirmAccountRateLimiter,
 } from '../middleware/rateLimit'
 
@@ -41,12 +39,6 @@ router.post('/forgot-password', passwordResetRateLimiter, validateBody(forgotPas
 router.post('/validate-token', validateBody(validateTokenSchema), asyncHandler(AuthController.validateToken))
 router.post('/update-password/:token', validateBody(updatePasswordWithTokenSchema), asyncHandler(AuthController.updatePasswordWithToken))
 router.post('/refresh', asyncHandler(AuthController.refresh))
-
-// OAuth (Google + GitHub)
-router.get('/google', asyncHandler(OAuthController.googleRedirect))
-router.get('/google/callback', oauthCallbackRateLimiter, asyncHandler(OAuthController.googleCallback))
-router.get('/github', asyncHandler(OAuthController.githubRedirect))
-router.get('/github/callback', oauthCallbackRateLimiter, asyncHandler(OAuthController.githubCallback))
 
 // Protected routes (require an access token)
 router.get('/user', authenticate, asyncHandler(AuthController.user))

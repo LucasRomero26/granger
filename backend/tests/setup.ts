@@ -27,15 +27,3 @@ if (!process.env.CLOUDINARY_API_KEY) {
 if (!process.env.CLOUDINARY_API_SECRET) {
   process.env.CLOUDINARY_API_SECRET = 'test-secret'
 }
-if (!process.env.GOOGLE_CLIENT_ID) {
-  process.env.GOOGLE_CLIENT_ID = 'test-google-client-id'
-}
-if (!process.env.GOOGLE_CLIENT_SECRET) {
-  process.env.GOOGLE_CLIENT_SECRET = 'test-google-client-secret'
-}
-if (!process.env.GITHUB_OAUTH_CLIENT_ID) {
-  process.env.GITHUB_OAUTH_CLIENT_ID = 'test-github-client-id'
-}
-if (!process.env.GITHUB_OAUTH_CLIENT_SECRET) {
-  process.env.GITHUB_OAUTH_CLIENT_SECRET = 'test-github-client-secret'
-}

@@ -154,7 +154,6 @@ function robotsTxt(siteUrl: string): string {
     'Allow: /',
     'Disallow: /projects/',
     'Disallow: /profile',
-    'Disallow: /auth/oauth-success',
     'Disallow: /app-shell.html',
     '',
     `Sitemap: ${absoluteUrl(siteUrl, '/sitemap.xml')}`,

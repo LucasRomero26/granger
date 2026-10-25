@@ -10,7 +10,3 @@ export function generateNumericToken(length = 8): string {
 export function generateRandomString(length: number): string {
   return crypto.randomBytes(length).toString('hex')
 }
-
-export function generateOauthState(): string {
-  return crypto.randomBytes(32).toString('hex')
-}

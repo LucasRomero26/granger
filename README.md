@@ -6,7 +6,7 @@ Full-stack project management application built on the MERN stack
 ## Features
 
 - JWT authentication with httpOnly refresh-token rotation and revocation
-- OAuth (Google and GitHub) social login
+- Email sign-up with account confirmation codes and password reset
 - Project, task and note management with Kanban board and drag-and-drop
 - Team members with role-based authorization (manager vs. team member)
 - Avatar uploads via Cloudinary signed uploads
@@ -104,7 +104,6 @@ Student Pack usage (no DigitalOcean):
 | Logs        | Better Stack    | Free                | 1 GB/month via `@logtail/pino`                  |
 | Redis       | Upstash         | Free                | 10 000 commands/day, distributed rate limit      |
 | Keep-alive  | UptimeRobot     | Free                | Pings `/health` every 10 min to prevent Render spin-down |
-| OAuth        | Google + GitHub | —                   | Free                                             |
 
 > **Why Render free works for us:** Render blocks outbound SMTP on ports
 > 25/465/587 for free services, but Granger sends email through Resend's
@@ -181,10 +180,6 @@ is configured in the Render dashboard.
    CLOUDINARY_API_KEY=...
    CLOUDINARY_API_SECRET=...
    CLOUDINARY_UPLOAD_PRESET=granger_avatars
-   GOOGLE_CLIENT_ID=TEMP_FILL_AFTER_OAUTH
-   GOOGLE_CLIENT_SECRET=TEMP_FILL_AFTER_OAUTH
-   GITHUB_OAUTH_CLIENT_ID=TEMP_FILL_AFTER_OAUTH
-   GITHUB_OAUTH_CLIENT_SECRET=TEMP_FILL_AFTER_OAUTH
    SENTRY_DSN_BACKEND=https://...@sentry.io/...
    LOGTAIL_SOURCE_TOKEN=...
    LOGTAIL_INGESTING_HOST=...
@@ -239,20 +234,6 @@ Render's loading page. To avoid that:
 > **Note:** Render still restarts the service occasionally (deploys,
 > platform maintenance). A 5-min ping keeps it warm but does not prevent
 > those restarts.
-
-### OAuth redirect URIs
-
-After the URLs are known, configure them in the OAuth providers:
-
-- **Google Cloud Console** → OAuth client ID
-  - Authorized JavaScript origins: `https://grangerproject.vercel.app`
-  - Authorized redirect URI:  `https://grangerproject.vercel.app/api/auth/google/callback`
-- **GitHub OAuth App**
-  - Homepage URL:           `https://grangerproject.vercel.app`
-  - Authorization callback: `https://grangerproject.vercel.app/api/auth/github/callback`
-
-The callbacks go through the Vercel proxy so the OAuth state cookie and the
-auth cookies stay on the frontend origin. They are built from `BACKEND_URL`.
 
 ### Cookie behavior in production
 

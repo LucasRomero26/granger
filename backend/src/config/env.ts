@@ -24,12 +24,6 @@ const envSchema = z.object({
   CLOUDINARY_API_SECRET: z.string(),
   CLOUDINARY_UPLOAD_PRESET: z.string().default('granger_avatars'),
 
-  GOOGLE_CLIENT_ID: z.string(),
-  GOOGLE_CLIENT_SECRET: z.string(),
-
-  GITHUB_OAUTH_CLIENT_ID: z.string(),
-  GITHUB_OAUTH_CLIENT_SECRET: z.string(),
-
   SENTRY_DSN: z.string().url().optional(),
   SENTRY_DSN_BACKEND: z.string().url().optional(),
 

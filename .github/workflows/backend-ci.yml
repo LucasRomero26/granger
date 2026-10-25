@@ -50,10 +50,6 @@ jobs:
       CLOUDINARY_API_KEY: test-key
       CLOUDINARY_API_SECRET: test-secret
       CLOUDINARY_UPLOAD_PRESET: granger_avatars
-      GOOGLE_CLIENT_ID: test-google-client-id
-      GOOGLE_CLIENT_SECRET: test-google-client-secret
-      GITHUB_OAUTH_CLIENT_ID: test-github-client-id
-      GITHUB_OAUTH_CLIENT_SECRET: test-github-client-secret
       FRONTEND_URL: http://localhost:5173
       BACKEND_URL: http://localhost:4000
 
@@ -174,10 +170,6 @@ jobs:
             -e CLOUDINARY_API_KEY=ci \
             -e CLOUDINARY_API_SECRET=ci \
             -e CLOUDINARY_UPLOAD_PRESET=granger_avatars \
-            -e GOOGLE_CLIENT_ID=ci \
-            -e GOOGLE_CLIENT_SECRET=ci \
-            -e GITHUB_OAUTH_CLIENT_ID=ci \
-            -e GITHUB_OAUTH_CLIENT_SECRET=ci \
             -e FRONTEND_URL=http://localhost:5173 \
             -e BACKEND_URL=http://localhost:4000 \
             granger-backend:ci-pr

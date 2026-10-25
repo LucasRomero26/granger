@@ -133,11 +133,3 @@ export async function checkPassword(formData: CheckPasswordForm) {
     throw new Error(errorMsg(error, 'Incorrect password'))
   }
 }
-
-type OAuthProvider = 'google' | 'github'
-
-export function getOAuthRedirectUrl(provider: OAuthProvider, next = '/'): string {
-  const base = (import.meta.env.VITE_API_URL as string).replace(/\/$/, '')
-  const nextParam = next.startsWith('/') && !next.startsWith('//') ? next : '/'
-  return `${base}/auth/${provider}?next=${encodeURIComponent(nextParam)}`
-}

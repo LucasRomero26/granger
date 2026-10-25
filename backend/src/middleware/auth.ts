@@ -9,7 +9,7 @@ import { env, isProduction } from '../config/env'
  *
  * In production the frontend proxies /api to the backend (vercel.json), so
  * BACKEND_URL is the frontend origin and the cookies are first-party: 'lax'
- * keeps them on same-site requests and on the top-level OAuth redirect.
+ * keeps them on same-site requests and on top-level navigations.
  * If the API is reached on another registrable domain, the browser treats it
  * as cross-site and only 'none' + Secure lets the cookies through.
  */

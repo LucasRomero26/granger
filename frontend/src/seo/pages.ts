@@ -75,17 +75,17 @@ export const PAGES = {
     en: {
       title: 'Sign in | Granger',
       description:
-        'Sign in to Granger to manage your projects, move tasks across Kanban boards and collaborate with your team. Email, Google and GitHub sign-in available.',
+        'Sign in to Granger to manage your projects, move tasks across Kanban boards and collaborate with your team.',
       heading: 'Sign in to Granger',
-      intro: 'Start planning your projects by signing in with your email, Google or GitHub account.',
+      intro: 'Start planning your projects by signing in with your email and password.',
       label: 'Sign in',
     },
     es: {
       title: 'Iniciar sesión | Granger',
       description:
-        'Inicia sesión en Granger para gestionar tus proyectos, mover tareas en tableros Kanban y colaborar con tu equipo. Accede con email, Google o GitHub.',
+        'Inicia sesión en Granger para gestionar tus proyectos, mover tareas en tableros Kanban y colaborar con tu equipo.',
       heading: 'Inicia sesión en Granger',
-      intro: 'Empieza a planificar tus proyectos iniciando sesión con tu email, Google o GitHub.',
+      intro: 'Empieza a planificar tus proyectos iniciando sesión con tu email y contraseña.',
       label: 'Iniciar sesión',
     },
   },
@@ -186,25 +186,6 @@ export const PAGES = {
       heading: 'Elige una nueva contraseña',
       intro: 'Ingresa el código que enviamos a tu email y elige una nueva contraseña.',
       label: 'Nueva contraseña',
-    },
-  },
-  oauthSuccess: {
-    path: '/auth/oauth-success',
-    indexable: false,
-    prerender: true,
-    en: {
-      title: 'Signing you in | Granger',
-      description: 'Completing your Google or GitHub sign-in to Granger.',
-      heading: 'Signing you in',
-      intro: 'Completing your sign-in, one moment please.',
-      label: 'Signing in',
-    },
-    es: {
-      title: 'Iniciando sesión | Granger',
-      description: 'Completando tu inicio de sesión en Granger con Google o GitHub.',
-      heading: 'Iniciando sesión',
-      intro: 'Completando tu inicio de sesión, un momento por favor.',
-      label: 'Iniciando sesión',
     },
   },
   profile: {
@@ -335,14 +316,14 @@ export const FEATURES: Record<Lang, string[]> = {
     'Kanban boards with drag-and-drop across five task statuses',
     'Projects, tasks and notes in one workspace',
     'Team members with manager and collaborator roles',
-    'Email, Google and GitHub sign-in',
+    'Secure email sign-in with account confirmation and password reset',
     'Available in English and Spanish',
   ],
   es: [
     'Tableros Kanban con arrastrar y soltar entre cinco estados de tarea',
     'Proyectos, tareas y notas en un solo espacio',
     'Miembros de equipo con roles de manager y colaborador',
-    'Inicio de sesión con email, Google y GitHub',
+    'Inicio de sesión seguro con email, confirmación de cuenta y recuperación de contraseña',
     'Disponible en inglés y español',
   ],
 }

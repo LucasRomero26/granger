@@ -35,13 +35,6 @@ export const registerRateLimiter = rateLimit({
   message: { error: 'Too many accounts created. Try again later.' },
 })
 
-export const oauthCallbackRateLimiter = rateLimit({
-  windowMs: 5 * 60 * 1000,
-  max: 10,
-  standardHeaders: true,
-  legacyHeaders: false,
-})
-
 // Email confirmation code verification: short numeric token (10^8 entropy).
 // Keep brute-force infeasible even across multiple IPs.
 export const confirmAccountRateLimiter = rateLimit({

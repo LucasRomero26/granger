@@ -7,19 +7,8 @@ import { createAccount } from '@/api/AuthAPI'
 import { Input } from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 import PageTransition from '@/components/ui/PageTransition'
-import OAuthButtons from '@/components/auth/OAuthButtons'
 import { useT } from '@/hooks/useT'
 import { usePageMeta } from '@/hooks/usePageMeta'
-
-function Divider({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="my-1 flex items-center gap-3 text-xs text-muted">
-      <span className="h-px flex-1 bg-glass-border" aria-hidden />
-      <span className="uppercase tracking-wider">{children}</span>
-      <span className="h-px flex-1 bg-glass-border" aria-hidden />
-    </div>
-  )
-}
 
 export default function RegisterView() {
   const t = useT()
@@ -113,11 +102,6 @@ export default function RegisterView() {
           {isPending ? t('register.submitting') : t('register.submit')}
         </Button>
       </form>
-
-      <div className="mt-5 space-y-4">
-        <Divider>{t('common.or')}</Divider>
-        <OAuthButtons next="/" />
-      </div>
 
       <nav className="mt-5 flex flex-col gap-1.5 text-center text-sm text-muted">
         <Link to="/auth/login" className="hover:text-accent">

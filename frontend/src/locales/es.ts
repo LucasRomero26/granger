@@ -10,7 +10,6 @@ export const messages = {
 
   // Brand / common
   'app.name': 'Granger',
-  'common.or': 'o',
   'common.optional': 'opcional',
   'common.cancel': 'Cancelar',
   'common.delete': 'Eliminar',
@@ -47,9 +46,6 @@ export const messages = {
   'login.notConfirmedRedirect': 'Tu cuenta no está confirmada. Te redirigimos para ingresar tu código…',
   'login.createAccount': '¿No tienes cuenta? Crea una',
   'login.forgotPassword': '¿Olvidaste tu contraseña? Recupérala',
-  'login.oauthMissingData': 'Faltan datos del proveedor OAuth. Intenta de nuevo.',
-  'login.oauthInvalid': 'La sesión OAuth no es válida. Intenta de nuevo.',
-  'login.oauthFailed': 'No se pudo completar el inicio de sesión. Intenta de nuevo.',
 
   // Auth: Register
   'register.title': 'Crear cuenta',
@@ -97,12 +93,6 @@ export const messages = {
   'requestCode.signIn': '¿Ya tienes cuenta? Inicia sesión',
   'requestCode.forgot': '¿Olvidaste tu contraseña? Recupérala',
 
-  // Auth: OAuth
-  'oauth.google': 'Continuar con Google',
-  'oauth.github': 'Continuar con GitHub',
-  'oauth.successWelcome': 'Bienvenido a Granger',
-  'oauth.requireLogin': 'Primero debes iniciar sesión',
-  'oauth.processing': 'Completando inicio de sesión…',
 
   // OTP input
   'otp.label': 'Código de 6 dígitos',
