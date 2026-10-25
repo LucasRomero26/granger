@@ -7,27 +7,20 @@ import { env, isProduction } from '../config/env'
 /**
  * Cookie SameSite policy for auth cookies.
  *
- * In development the frontend and backend share localhost (same site), so
- * 'strict' is fine and the most secure.
- *
- * In production the frontend is served from a different host than the API
- * (e.g. granger.vercel.app vs granger-backend.onrender.com). Browsers treat
- * different registrable domains as cross-site, so 'strict'/'lax' would block
- * the refresh_token cookie on cross-site fetch() calls and OAuth redirects.
- * We therefore use 'none' + Secure, which is the only mode that allows the
- * cookie to be sent on cross-site requests. httpOnly still protects against
- * XSS-based exfiltration.
+ * In production the frontend proxies /api to the backend (vercel.json), so
+ * BACKEND_URL is the frontend origin and the cookies are first-party: 'lax'
+ * keeps them on same-site requests and on the top-level OAuth redirect.
+ * If the API is reached on another registrable domain, the browser treats it
+ * as cross-site and only 'none' + Secure lets the cookies through.
  */
-function sameSitePolicy(): 'strict' | 'none' {
-  if (!isProduction) return 'strict'
+function sameSitePolicy(): 'lax' | 'none' {
+  if (!isProduction) return 'lax'
 
   const frontendHost = safeHostname(env.FRONTEND_URL)
   const backendHost = safeHostname(env.BACKEND_URL)
-  // Same site if both hosts share the same registrable domain (eTLD+1).
-  // For localhost or identical hosts, keep 'strict'.
   if (!frontendHost || !backendHost) return 'none'
-  if (frontendHost === backendHost) return 'strict'
-  if (sameRegistrableDomain(frontendHost, backendHost)) return 'strict'
+  if (frontendHost === backendHost) return 'lax'
+  if (sameRegistrableDomain(frontendHost, backendHost)) return 'lax'
   return 'none'
 }
 

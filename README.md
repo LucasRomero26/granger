@@ -113,10 +113,10 @@ Student Pack usage (no DigitalOcean):
 
 ### Endpoints
 
-- Frontend: `https://granger.vercel.app` (or your Vercel subdomain)
-- Backend: `https://granger-backend.onrender.com` (Render auto-assigned hostname)
-- API base: `https://granger-backend.onrender.com/api`
-- Health:   `https://granger-backend.onrender.com/health`
+- Frontend: `https://grangerproject.vercel.app`
+- Backend: `https://granger-75gn.onrender.com` (Render auto-assigned hostname)
+- API base: `https://grangerproject.vercel.app/api` (proxied by Vercel to `https://granger-75gn.onrender.com/api`)
+- Health:   `https://granger-75gn.onrender.com/health`
 
 ### CI/CD
 
@@ -139,7 +139,7 @@ pull requests). No GitHub Action is needed for the frontend deploy.
 2. Framework preset: Vite (auto-detected). Build: `npm run build`.
    Output directory: `dist`.
 3. Environment variables (Production + Preview):
-   - `VITE_API_URL` — `https://granger-backend.onrender.com/api`
+   - `VITE_API_URL` — `/api` (`vercel.json` rewrites `/api/*` to the Render backend)
    - `VITE_DEMO_MODE` — `false`
    - `VITE_SENTRY_DSN` — your Sentry React project DSN (public)
 4. Vercel auto-deploys on every push to `main`, and creates a preview
@@ -172,8 +172,9 @@ is configured in the Render dashboard.
    DATABASE_URL=mongodb+srv://...
    JWT_ACCESS_SECRET=<openssl rand -hex 48>
    JWT_REFRESH_SECRET=<openssl rand -hex 48>
-   FRONTEND_URL=https://granger.vercel.app
-   BACKEND_URL=https://granger-backend.onrender.com
+   FRONTEND_URL=https://grangerproject.vercel.app
+   BACKEND_URL=https://grangerproject.vercel.app
+   TRUST_PROXY_HOPS=2
    RESEND_API_KEY=re_...
    RESEND_FROM_EMAIL=onboarding@resend.dev
    CLOUDINARY_CLOUD_NAME=...
@@ -194,7 +195,7 @@ is configured in the Render dashboard.
    AUTH_BLOCK_DURATION_MS=900000
    ```
 5. **Create Web Service**. Render builds and deploys. The first build
-   takes ~5 min; the URL is `https://granger-backend.onrender.com`.
+   takes ~5 min; the URL is `https://granger-75gn.onrender.com`.
 6. Open **Settings → Deploy Hook**, create one called `github-actions`,
    copy the URL and add it as the `RENDER_BACKEND_DEPLOY_HOOK` secret in
    https://github.com/LucasRomero26/granger/settings/secrets/actions
@@ -230,7 +231,7 @@ Render's loading page. To avoid that:
 2. Add a new monitor:
    - **Monitor Type**: HTTP(s)
    - **Friendly Name**: `Granger backend`
-   - **URL**: `https://granger-backend.onrender.com/health`
+   - **URL**: `https://granger-75gn.onrender.com/health`
    - **Monitoring Interval**: `5 minutes`
 3. Save. From now on, UptimeRobot keeps the service warm AND emails you
    if the backend ever goes down.
@@ -244,20 +245,24 @@ Render's loading page. To avoid that:
 After the URLs are known, configure them in the OAuth providers:
 
 - **Google Cloud Console** → OAuth client ID
-  - Authorized JavaScript origins: `https://granger-backend.onrender.com`
-  - Authorized redirect URI:  `https://granger-backend.onrender.com/api/auth/google/callback`
+  - Authorized JavaScript origins: `https://grangerproject.vercel.app`
+  - Authorized redirect URI:  `https://grangerproject.vercel.app/api/auth/google/callback`
 - **GitHub OAuth App**
-  - Homepage URL:           `https://granger.vercel.app`
-  - Authorization callback: `https://granger-backend.onrender.com/api/auth/github/callback`
+  - Homepage URL:           `https://grangerproject.vercel.app`
+  - Authorization callback: `https://grangerproject.vercel.app/api/auth/github/callback`
 
-### Cookie behavior in cross-site production
+The callbacks go through the Vercel proxy so the OAuth state cookie and the
+auth cookies stay on the frontend origin. They are built from `BACKEND_URL`.
 
-In production the frontend (Vercel) and backend (Render) live on different
-registrable domains, so auth cookies are issued with `sameSite=none;
-secure=true`. The browser will only attach them to cross-site requests
-issued over HTTPS — the access token is also sent in the `Authorization`
-header and the refresh token is rotated server-side. See
-`backend/src/middleware/auth.ts` for the policy logic.
+### Cookie behavior in production
+
+The frontend calls the API on its own origin (`/api`), and Vercel proxies those
+requests to Render. The auth cookies are therefore first-party and issued with
+`sameSite=lax; secure=true`. Because requests reach Express through Vercel and
+Render, `TRUST_PROXY_HOPS=2` keeps `req.ip` set to the real client for rate
+limiting. If the API is ever served from another registrable domain, the
+cookies fall back to `sameSite=none`. See `backend/src/middleware/auth.ts` for
+the policy logic.
 
 ## Security
 
@@ -267,4 +272,4 @@ header and the refresh token is rotated server-side. See
 - HTTP parameter pollution protection and MongoDB query sanitization.
 - Strict CORS allowlist with explicit origins.
 - Rate limiting: global, auth, password reset and registration buckets.
-- httpOnly + SameSite=Strict + Secure cookies in production.
+- httpOnly + SameSite=Lax + Secure cookies in production.

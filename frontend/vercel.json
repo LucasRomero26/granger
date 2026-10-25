@@ -1,6 +1,7 @@
 {
   "trailingSlash": false,
   "rewrites": [
+    { "source": "/api/:path*", "destination": "https://granger-75gn.onrender.com/api/:path*" },
     { "source": "/projects/:projectId", "destination": "/app-shell.html" },
     { "source": "/projects/:projectId/edit", "destination": "/app-shell.html" },
     { "source": "/projects/:projectId/team", "destination": "/app-shell.html" }

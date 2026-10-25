@@ -12,7 +12,7 @@ import { errorHandler, notFoundHandler } from './middleware/error'
 import { connectDB } from './config/db'
 import authRoutes from './routes/authRoutes'
 import projectRoutes from './routes/projectRoutes'
-import { isTest } from './config/env'
+import { env, isTest } from './config/env'
 import { initSentry } from './config/sentry'
 
 initSentry()
@@ -27,8 +27,8 @@ function createApp(): Express {
 
   app.disable('x-powered-by')
 
-  // Trust proxy: required for accurate rate limiting behind Render
-  app.set('trust proxy', 1)
+  // Trust proxy: required for accurate rate limiting behind Render (and Vercel when proxied)
+  app.set('trust proxy', env.TRUST_PROXY_HOPS)
   // Gzip compression
   app.use(compression())
 
